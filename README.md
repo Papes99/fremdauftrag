@@ -1,7 +1,8 @@
 # Fremdauftrag
 
-Private Notizen zur App **Fremdauftrag** (kleine anonyme Aufgaben von Fremden, iOS und Android).
+App für iPhone und Android: kleine anonyme Aufgaben von Fremden.
 
-Die Spezifikation ist gelesen. Gebaut wird noch nichts, bis die offenen Punkte entschieden sind.
+Offene Punkte sind entschieden. Als Nächstes kommt Meilenstein 1
+(Projekt, Navigation, Design, Übersetzung, Supabase vorbereitet aber noch nicht verbunden, Altersabfrage, Onboarding).
 
-Alle Unklarheiten stehen in [UNKLARHEITEN.md](./UNKLARHEITEN.md).
+Alle Entscheidungen stehen in [UNKLARHEITEN.md](./UNKLARHEITEN.md).
