@@ -89,7 +89,11 @@
     },
     "photoBig": "Das Foto ist zu groß für dieses Gerät.",
     "note": "Notiz, nur auf diesem Gerät",
-    "photo": "Foto auswählen, nur auf diesem Gerät",
+    "photo": "Foto, nur auf diesem Gerät",
+    "photoExplain": "Das Foto bleibt auf diesem Gerät. Es wird nicht hochgeladen. Die Kamera fragt erst, wenn du aufnehmen tippst.",
+    "photoCamera": "Foto aufnehmen",
+    "photoLibrary": "Aus Galerie wählen",
+    "photoDenied": "Ohne Kamera-Erlaubnis kannst du trotzdem ein Foto aus der Galerie wählen.",
     "photoRemove": "Foto entfernen",
     "replaced": "Diese Aufgabe wurde ausgetauscht.",
     "donePraise": "Schön. Irgendwo freut sich gerade jemand.",
@@ -263,6 +267,7 @@
     "count": "{done}/3 erledigt",
     "streak": "{count} Tage",
     "footer": "Fremdauftrag – Aufgaben von Fremden",
+    "wrote": "Du hast heute auch geschrieben.",
     "share": "Teilen",
     "save": "Speichern",
     "saved": "Die Karte ist gespeichert.",
@@ -286,7 +291,10 @@
     "title": "Themenpakete",
     "body": "Einmal kaufen, dann mischt sich eine Aufgabe daraus in den Morgen. Kaufen geht erst, wenn der Shop verbunden ist. Es wird jetzt nichts abgebucht.",
     "examples": "Zwei Beispiele",
-    "buy": "Kauf noch nicht möglich"
+    "buy": "Kauf noch nicht möglich",
+    "tryLocal": "Auf diesem Gerät anschalten",
+    "active": "An. Tippen schaltet es aus.",
+    "tryNote": "Das ist kein Kauf. Es wird nichts abgebucht."
   },
   "modScreen": {
     "title": "Meldungen",

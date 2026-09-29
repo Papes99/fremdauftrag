@@ -9,6 +9,7 @@ import {
   fileReport,
   project,
   setDraftLine,
+  sponsorIsDue,
   setPause,
   setTaskNote,
   setTaskPhoto,
@@ -136,6 +137,26 @@ test('Fotos bleiben aus dem gespeicherten Verlauf und aus dem Export', () => {
   const raw = JSON.stringify(exportJournal(back, morning, 'Europe/Berlin'));
   assert.equal(raw.includes('SECRET'), false);
   assert.equal(raw.includes('nur hier'), true);
+});
+
+test('Sponsor kommt höchstens einmal pro Woche, selten nur einmal im Monat', () => {
+  assert.equal(sponsorIsDue('off', null, '2026-09-29'), false);
+  assert.equal(sponsorIsDue('weekly', null, '2026-09-29'), true);
+  assert.equal(sponsorIsDue('weekly', '2026-09-23', '2026-09-29'), false);
+  assert.equal(sponsorIsDue('weekly', '2026-09-22', '2026-09-29'), true);
+  assert.equal(sponsorIsDue('rare', '2026-09-01', '2026-09-29'), false);
+  assert.equal(sponsorIsDue('rare', '2026-08-29', '2026-09-29'), true);
+});
+
+test('Schreiben zählt auf der Karte erst, wenn alle drei geprüft und nicht abgelehnt sind', () => {
+  let state = createJournal(morning, 'sess', 'Europe/Berlin', catalogs);
+  const day = project(state, morning, 'Europe/Berlin').today;
+  state = setDraftLine(state, day, 0, 'Sag einem Baum heute einfach guten Morgen.');
+  state = setDraftLine(state, day, 1, 'Schreib drei Dinge auf, die nichts kosten.');
+  state = setDraftLine(state, day, 2, 'Hör ein Lied und summ leise mit.');
+  assert.equal(project(state, morning, 'Europe/Berlin').wroteToday, false);
+  state = submitDraft(state, morning, catalogs, 'Europe/Berlin');
+  assert.equal(project(state, morning, 'Europe/Berlin').wroteToday, true);
 });
 
 test('Pause beginnt am nächsten Morgen, wenn heute schon Aufgaben da sind', () => {

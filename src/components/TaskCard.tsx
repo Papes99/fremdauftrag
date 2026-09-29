@@ -5,7 +5,7 @@ import { GrowLeaf } from '@/components/GrowLeaf';
 import { copy, fill } from '@/i18n';
 import type { ReportReason } from '@/lib/journalLogic';
 import type { VisibleTask } from '@/lib/journalLogic';
-import { pickLocalPhoto } from '@/lib/photo';
+import { pickLocalPhoto, type PhotoSource } from '@/lib/photo';
 import { useTheme } from '@/theme/ThemeProvider';
 
 const reasons: ReportReason[] = ['unangemessen', 'gefaehrlich', 'spam', 'anderes'];
@@ -28,15 +28,22 @@ export function TaskCard({ task, onStatus, onNote, onPhoto, onReport }: Props) {
       ? fill(copy.home.sponsor, { name: task.sponsorName })
       : copy.home.sources[task.source];
 
-  async function choosePhoto() {
-    const picked = await pickLocalPhoto();
+  const [choosingPhoto, setChoosingPhoto] = useState(false);
+
+  async function choosePhoto(source: PhotoSource) {
+    const picked = await pickLocalPhoto(source);
     if (picked === 'big') {
       setMessage(copy.home.photoBig);
+      return;
+    }
+    if (picked === 'denied') {
+      setMessage(copy.home.photoDenied);
       return;
     }
     if (picked === 'cancel') return;
     onPhoto(picked);
     setMessage(null);
+    setChoosingPhoto(false);
   }
 
   return (
@@ -92,13 +99,24 @@ export function TaskCard({ task, onStatus, onNote, onPhoto, onReport }: Props) {
       <Pressable
         accessibilityRole="button"
         accessibilityLabel={task.photo ? copy.home.photoRemove : copy.home.photo}
-        onPress={() => (task.photo ? onPhoto(null) : choosePhoto())}
+        onPress={() => (task.photo ? onPhoto(null) : setChoosingPhoto(true))}
         style={{ minHeight: 48, justifyContent: 'center' }}
       >
         <AppText variant="label" color={colors.sageDeep}>
           {task.photo ? copy.home.photoRemove : copy.home.photo}
         </AppText>
       </Pressable>
+      {choosingPhoto && !task.photo ? (
+        <View style={{ gap: 8 }}>
+          <AppText variant="muted">{copy.home.photoExplain}</AppText>
+          <Pressable accessibilityRole="button" accessibilityLabel={copy.home.photoCamera} onPress={() => choosePhoto('camera')} style={{ minHeight: 48, justifyContent: 'center' }}>
+            <AppText variant="label">{copy.home.photoCamera}</AppText>
+          </Pressable>
+          <Pressable accessibilityRole="button" accessibilityLabel={copy.home.photoLibrary} onPress={() => choosePhoto('library')} style={{ minHeight: 48, justifyContent: 'center' }}>
+            <AppText variant="label">{copy.home.photoLibrary}</AppText>
+          </Pressable>
+        </View>
+      ) : null}
       {message ? <AppText variant="muted">{message}</AppText> : null}
       {reporting ? (
         <View style={{ gap: 8 }}>

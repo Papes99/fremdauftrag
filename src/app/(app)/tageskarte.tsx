@@ -7,6 +7,7 @@ import { LeafMark } from '@/components/LeafMark';
 import { BootMark } from '@/components/BootMark';
 import { copy, fill } from '@/i18n';
 import { formatDay } from '@/lib/clock';
+import { cardLines } from '@/lib/card';
 import { hashString } from '@/lib/journalLogic';
 import { useJournal } from '@/lib/journal';
 
@@ -17,24 +18,29 @@ const posters = [
   { bg: '#1A211C', fg: '#F3EDE2', accent: '#A8C7B2' },
 ];
 
-function drawPoster(input: { day: string; done: number; streak: number; quote: string; colors: (typeof posters)[number] }) {
+function drawPoster(input: { day: string; done: number; streak: number; wrote: boolean; quote: string; colors: (typeof posters)[number] }) {
   if (typeof document === 'undefined') return null;
   const canvas = document.createElement('canvas');
   canvas.width = 1080;
   canvas.height = 1920;
   const ctx = canvas.getContext('2d');
   if (!ctx) return null;
+  const lines = cardLines({ done: input.done, streak: input.streak, wrote: input.wrote, quote: input.quote });
   ctx.fillStyle = input.colors.bg;
   ctx.fillRect(0, 0, 1080, 1920);
   ctx.fillStyle = input.colors.fg;
   ctx.font = '700 64px Nunito, sans-serif';
-  ctx.fillText('Fremdauftrag', 80, 220);
+  ctx.fillText(lines[0] ?? 'Fremdauftrag', 80, 220);
   ctx.font = '400 42px Nunito, sans-serif';
   wrap(ctx, formatDay(input.day), 80, 320, 900, 56);
   ctx.font = '800 120px Nunito, sans-serif';
-  ctx.fillText(fill(copy.card.count, { done: input.done }), 80, 620);
+  ctx.fillText(lines[1] ?? '', 80, 620);
   ctx.font = '600 48px Nunito, sans-serif';
-  ctx.fillText(fill(copy.card.streak, { count: input.streak }), 80, 760);
+  ctx.fillText(lines[2] ?? '', 80, 760);
+  if (input.wrote) {
+    ctx.font = '600 42px Nunito, sans-serif';
+    ctx.fillText(copy.card.wrote, 80, 840);
+  }
   ctx.font = '400 54px Nunito, sans-serif';
   wrap(ctx, input.quote, 80, 980, 900, 72);
   ctx.font = '400 36px Nunito, sans-serif';
@@ -73,7 +79,7 @@ export default function CardScreen() {
   const quote = copy.card.quotes[hashString(`${view.today}:quote`) % copy.card.quotes.length]!;
 
   async function act(kind: 'share' | 'save') {
-    const dataUrl = drawPoster({ day: view!.today, done, streak: view!.streak, quote, colors });
+    const dataUrl = drawPoster({ day: view!.today, done, streak: view!.streak, wrote: view!.wroteToday, quote, colors });
     if (!dataUrl) return;
     if (kind === 'share' && typeof navigator !== 'undefined' && navigator.share) {
       try {
@@ -131,6 +137,11 @@ export default function CardScreen() {
           <AppText variant="label" color={colors.fg}>
             {fill(copy.card.streak, { count: view.streak })}
           </AppText>
+          {view.wroteToday ? (
+            <AppText variant="label" color={colors.accent}>
+              {copy.card.wrote}
+            </AppText>
+          ) : null}
           <AppText variant="body" color={colors.fg}>
             {quote}
           </AppText>

@@ -4,8 +4,14 @@ Kleine anonyme Aufgaben von Fremden. Die App ist für iPhone und Android. Es gib
 
 ## Stand
 
-Die App ist auf dem Gerät spielbar: Onboarding mit Grenzjahr-Frage, Startpool, Erledigt und Heute nicht, Melden, Schreiben mit Wortfilter, ehrliche Rückmeldung ohne erfundenen Fremden, Streak mit Schonungstag, Verlauf mit privaten Fotos, Tageskarte, Einstellungen, Shop ohne Kauf, Meldungen.
+Die App ist auf dem Gerät spielbar, von der ersten Seite bis zur Tageskarte, den Themenpaketen ohne Kauf und den Einstellungen. Der Server, die KI, der Shop und die Sponsoren sind aus. Entscheidungen: [UNKLARHEITEN.md](./UNKLARHEITEN.md)
 
-Der Server ist bewusst noch nicht verbunden. Geschriebene Aufgaben gehen an niemanden. Die KI-Prüfung und die nächtliche Zuteilung liegen als Dateien bereit und sind aus. Entscheidungen: [UNKLARHEITEN.md](./UNKLARHEITEN.md)
+## Was du selbst tun musst, bevor die App in den Store kann
+
+1. Ein kostenloses Konto bei Expo anlegen, wenn du die App auf dem eigenen Handy testen willst.
+2. Supabase in Frankfurt, Mistral und RevenueCat erst, wenn du wirklich anmelden, prüfen und verkaufen willst.
+3. Apple Developer und Google Play, wenn die App öffentlich werden soll. Die Altersstufe setzt du dort mindestens auf 16+.
+
+Bis dahin musst du nichts anlegen.
 
 Die Datenbank-Dateien unter `supabase/migrations/` liegen bereit und sind noch nicht ausgeführt.

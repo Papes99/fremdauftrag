@@ -1,5 +1,5 @@
 import { router } from 'expo-router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Pressable, View } from 'react-native';
 import { AppPage } from '@/components/AppPage';
 import { AppText } from '@/components/AppText';
@@ -11,6 +11,7 @@ import { copy, fill } from '@/i18n';
 import { shiftMinutes, type Weekday } from '@/lib/clock';
 import { formatDay } from '@/lib/clock';
 import { useJournal } from '@/lib/journal';
+import { syncLocalReminders } from '@/lib/notifications';
 import { useSession } from '@/lib/session';
 import { useTheme } from '@/theme/ThemeProvider';
 
@@ -40,6 +41,18 @@ export default function SettingsScreen() {
   const { session, forget } = useSession();
   const [shiftOpen, setShiftOpen] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
+
+  useEffect(() => {
+    if (!view) return;
+    syncLocalReminders({
+      morning: view.settings.notifyMorning,
+      evening: view.settings.notifyEvening,
+      paused: view.paused,
+      morningTime: view.settings.morning,
+      eveningTime: view.settings.eveningStart,
+    }).catch(() => undefined);
+  }, [view]);
+
   if (!ready || !view) return <BootMark />;
   const settings = view.settings;
 
@@ -49,6 +62,14 @@ export default function SettingsScreen() {
 
   async function download() {
     const payload = exportJson();
+    if (typeof navigator !== 'undefined' && navigator.share) {
+      try {
+        await navigator.share({ title: 'Fremdauftrag', text: payload });
+        return;
+      } catch {
+        // Teilen abgebrochen. Danach der Download, falls der Browser das kann.
+      }
+    }
     if (typeof document === 'undefined') return;
     const blob = new Blob([payload], { type: 'application/json' });
     const url = URL.createObjectURL(blob);

@@ -9,10 +9,15 @@
     "userInterfaceStyle": "automatic",
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "de.fremdauftrag.app"
+      "bundleIdentifier": "de.fremdauftrag.app",
+      "infoPlist": {
+        "NSCameraUsageDescription": "Die Kamera macht ein privates Foto zur Aufgabe. Es bleibt auf diesem Gerät und wird nicht hochgeladen.",
+        "NSPhotoLibraryUsageDescription": "Fremdauftrag legt Fotos nur auf diesem Gerät zu deinen Aufgaben. Sie werden nicht hochgeladen."
+      }
     },
     "android": {
       "package": "de.fremdauftrag.app",
+      "permissions": ["CAMERA"],
       "adaptiveIcon": {
         "backgroundColor": "#F3EDE2",
         "foregroundImage": "./assets/android-icon-foreground.png",
@@ -43,7 +48,8 @@
       [
         "expo-image-picker",
         {
-          "photosPermission": "Fremdauftrag legt Fotos nur auf diesem Gerät zu deinen Aufgaben. Sie werden nicht hochgeladen."
+          "photosPermission": "Fremdauftrag legt Fotos nur auf diesem Gerät zu deinen Aufgaben. Sie werden nicht hochgeladen.",
+        "cameraPermission": "Die Kamera macht ein privates Foto zur Aufgabe. Es bleibt auf diesem Gerät und wird nicht hochgeladen."
         }
       ]
     ]

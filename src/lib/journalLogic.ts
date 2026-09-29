@@ -120,6 +120,7 @@ export type JournalView = {
   settings: Settings;
   reports: Omit<Report, 'authorKey'>[];
   cardReady: boolean;
+  wroteToday: boolean;
 };
 
 const EMPTY: DraftLine = { text: '', status: 'draft', key: null, schwere: null };
@@ -176,6 +177,21 @@ export function timesForDay(settings: Settings, day: string): Times {
 export function isPaused(settings: Settings, day: string): boolean {
   if (!settings.pauseFrom || !settings.pauseUntil) return false;
   return day >= settings.pauseFrom && day <= settings.pauseUntil;
+}
+
+export function sponsorIsDue(mode: 'off' | 'weekly' | 'rare', lastDay: string | null, today: string): boolean {
+  if (mode === 'off') return false;
+  if (!lastDay) return true;
+  const span = Math.round((Date.parse(`${today}T00:00:00Z`) - Date.parse(`${lastDay}T00:00:00Z`)) / 86400000);
+  return span >= (mode === 'rare' ? 30 : 7);
+}
+
+function lastSponsorDay(state: JournalState): string | null {
+  let last: string | null = null;
+  for (const assignment of state.assignments) {
+    if (assignment.tasks.some((task) => task.source === 'sponsor') && (!last || assignment.day > last)) last = assignment.day;
+  }
+  return last;
 }
 
 function lookup(catalogs: Catalogs, id: string): { text: string; source: TaskSource; sponsorName: string | null } | null {
@@ -317,6 +333,13 @@ export function tick(state: JournalState, now: Date, catalogs: Catalogs, timeZon
     .filter((task): task is AssignedTask => task !== null)
     .slice(0, 3);
   if (tasks.length < 3) return next;
+
+  if (catalogs.sponsorsEnabled && catalogs.sponsors.length > 0 && sponsorIsDue(next.settings.sponsorMode, lastSponsorDay(next), today)) {
+    const sponsor = catalogs.sponsors[Math.abs(hashString(`${today}:sponsor`)) % catalogs.sponsors.length]!;
+    const made = makeTask(catalogs, sponsor.id, today, 9);
+    const slot = tasks.findIndex((task) => task.source === 'seed');
+    if (made && slot >= 0) tasks[slot] = { ...made, key: `${today}-${slot}-${sponsor.id}` };
+  }
 
   next.assignments = [
     ...next.assignments,
@@ -658,6 +681,11 @@ export function project(state: JournalState, now: Date, timeZone: string): Journ
       return visible;
     }),
     cardReady: Boolean(assignment && assignment.tasks.every((task) => task.status !== 'open')),
+    wroteToday: Boolean(
+      draft &&
+        draft.lines.length === 3 &&
+        draft.lines.every((line) => line.status === 'pending' && line.text.trim().length >= 10),
+    ),
   };
 }
 
