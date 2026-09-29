@@ -11,11 +11,11 @@
     "back": "Zurück",
     "pages": [
       {
-        "title": "Für jemand anderen",
+        "title": "Für einen Fremden",
         "body": "Jeden Abend schreibst du 3 kleine Aufgaben für einen Fremden."
       },
       {
-        "title": "Von jemand anderem",
+        "title": "Von einem Fremden",
         "body": "Jeden Morgen bekommst du 3 Aufgaben von einem anderen Fremden."
       },
       {
@@ -70,12 +70,12 @@
     "connectedBody": "Dein anonymes Konto ist aktiv.",
     "rhythmTitle": "So wird der Tag",
     "morning": "Morgens bekommst du 3 Aufgaben.",
-    "evening": "Abends schreibst du 3 Aufgaben für jemand anderen.",
+    "evening": "Abends schreibst du 3 Aufgaben für einen Fremden.",
     "later": "Die Aufgaben selbst kommen im nächsten Schritt. Jede ist freiwillig.",
     "voluntary": "Du entscheidest. Jede Aufgabe ist freiwillig.",
     "rules": "Regeln lesen",
     "streak": "Streak {count}",
-    "streakZero": "Noch kein Streak. Eine erledigte Aufgabe reicht.",
+    "streakZero": "Noch kein Tag. Eine erledigte Aufgabe reicht.",
     "pauseTitle": "Pause",
     "pauseBody": "Keine neuen Aufgaben. Dein Streak bleibt stehen.",
     "cardCta": "Deine Tageskarte ist fertig",
@@ -247,7 +247,8 @@
   },
   "history": {
     "title": "Verlauf",
-    "best": "Längste Streak: {count}",
+    "best": "Längste Folge: {count}",
+    "bestNone": "Längste Folge: noch keine",
     "total": "Erledigte Aufgaben: {count}",
     "grace": "Ein verpasster Tag pro Woche ist Schonung. Die Streak bleibt. Eine Pause friert sie ein.",
     "private": "Notizen und Fotos bleiben nur auf diesem Gerät.",
@@ -262,7 +263,10 @@
       "Sa",
       "So"
     ],
-    "empty": "An dem Tag gab es keine Aufgaben."
+    "empty": "An dem Tag gab es keine Aufgaben.",
+    "legendDone": "Erledigt",
+    "legendMiss": "Verpasst",
+    "legendPause": "Pause"
   },
   "card": {
     "title": "Tageskarte",

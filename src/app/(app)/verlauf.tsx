@@ -5,6 +5,7 @@ import { AppText } from '@/components/AppText';
 import { BootMark } from '@/components/BootMark';
 import { copy, fill } from '@/i18n';
 import { formatDay } from '@/lib/clock';
+import { streakLine } from '@/lib/card';
 import { useJournal } from '@/lib/journal';
 import { useTheme } from '@/theme/ThemeProvider';
 
@@ -35,9 +36,16 @@ export default function HistoryScreen() {
       <AppText variant="title" accessibilityRole="header">
         {copy.history.title}
       </AppText>
-      <AppText variant="body">{fill(copy.history.best, { count: view.best })}</AppText>
+      <AppText variant="body">
+        {view.best === 0 ? copy.history.bestNone : fill(copy.history.best, { count: streakLine(view.best) })}
+      </AppText>
       <AppText variant="body">{fill(copy.history.total, { count: view.totalDone })}</AppText>
       <AppText variant="muted">{copy.history.grace}</AppText>
+      <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 16 }}>
+        <Legend color={colors.sage} label={copy.history.legendDone} />
+        <Legend color={colors.card} label={copy.history.legendMiss} />
+        <Legend color={colors.line} label={copy.history.legendPause} />
+      </View>
       <AppText variant="muted">{copy.history.private}</AppText>
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
         <Pressable accessibilityRole="button" accessibilityLabel={copy.history.prev} onPress={() => shift(-1)} style={{ minHeight: 48, justifyContent: 'center' }}>
@@ -130,5 +138,24 @@ export default function HistoryScreen() {
         </View>
       ) : null}
     </AppPage>
+  );
+}
+
+function Legend({ color, label }: { color: string; label: string }) {
+  const { colors } = useTheme();
+  return (
+    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+      <View
+        style={{
+          width: 16,
+          height: 16,
+          borderRadius: 8,
+          backgroundColor: color,
+          borderWidth: 1,
+          borderColor: colors.sageDeep,
+        }}
+      />
+      <AppText variant="muted">{label}</AppText>
+    </View>
   );
 }

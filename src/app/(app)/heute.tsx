@@ -2,12 +2,14 @@ import { router } from 'expo-router';
 import { Pressable, View } from 'react-native';
 import { AppPage } from '@/components/AppPage';
 import { AppText } from '@/components/AppText';
+import { LeafMark } from '@/components/LeafMark';
 import { Button } from '@/components/Button';
 import { ConnectionBanner } from '@/components/ConnectionBanner';
 import { TaskCard } from '@/components/TaskCard';
 import { BootMark } from '@/components/BootMark';
-import { copy, fill } from '@/i18n';
+import { copy } from '@/i18n';
 import { formatDay } from '@/lib/clock';
+import { streakLine } from '@/lib/card';
 import { useJournal } from '@/lib/journal';
 import { useSession } from '@/lib/session';
 import { useTheme } from '@/theme/ThemeProvider';
@@ -24,9 +26,6 @@ export default function TodayScreen() {
   const { ready, view, setStatus, setNote, setPhoto, report } = useJournal();
   const { session } = useSession();
   if (!ready || !view) return <BootMark />;
-
-  const streakText =
-    view.streak > 0 ? fill(copy.home.streak, { count: view.streak }) : copy.home.streakZero;
 
   return (
     <AppPage nav>
@@ -49,7 +48,10 @@ export default function TodayScreen() {
         <AppText variant="display" accessibilityRole="header">
           {greeting()}
         </AppText>
-        <AppText variant="label">{streakText}</AppText>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+          {view.streak > 0 ? <LeafMark size={28} /> : null}
+          <AppText variant="label">{view.streak > 0 ? streakLine(view.streak) : copy.home.streakZero}</AppText>
+        </View>
       </View>
       <ConnectionBanner connected={session?.serverConnected ?? false} />
       {session?.pushGranted === false ? <AppText variant="muted">{copy.home.pushOff}</AppText> : null}
