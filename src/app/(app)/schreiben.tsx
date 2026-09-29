@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { TextInput, View } from 'react-native';
 import { AppPage } from '@/components/AppPage';
 import { AppText } from '@/components/AppText';
@@ -12,8 +13,17 @@ import { useTheme } from '@/theme/ThemeProvider';
 export default function WriteScreen() {
   const { colors, fonts } = useTheme();
   const { ready, view, editLine, newHints, submit } = useJournal();
+  const [checking, setChecking] = useState(false);
   if (!ready || !view) return <BootMark />;
   const draft = view.draft;
+
+  async function onSubmit() {
+    if (checking) return;
+    setChecking(true);
+    await new Promise((resolve) => setTimeout(resolve, 450));
+    submit();
+    setChecking(false);
+  }
 
   return (
     <AppPage nav>
@@ -75,7 +85,7 @@ export default function WriteScreen() {
       {view.lock === 'none' ? (
         <View style={{ gap: 10 }}>
           <Button label={copy.write.idea} variant="secondary" onPress={newHints} />
-          <Button label={copy.write.submit} onPress={submit} />
+          <Button label={checking ? copy.write.checking : copy.write.submit} onPress={onSubmit} disabled={checking} />
         </View>
       ) : null}
     </AppPage>

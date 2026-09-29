@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import de from '../i18n/de.json' with { type: 'json' };
 import { SEED_TASKS, SPONSOR_TASKS, THEME_PACKS } from '../data/catalog.ts';
-import { releaseDecision, ruleCheck, type ReasonKey } from './moderation.ts';
+import { parseModelReply, releaseDecision, ruleCheck, type ReasonKey } from './moderation.ts';
 
 const GOOD = [
   'Frag heute jemanden nach seinem Lieblingslied und hör es dir an.',
@@ -134,6 +134,18 @@ test('Gründe sind kurz und stehen in der Übersetzungsdatei', () => {
     assert.equal(typeof text, 'string', item.key);
     assert.ok(text.length > 0 && text.length <= 80, text);
   }
+});
+
+test('die KI-Antwort wird streng gelesen', () => {
+  assert.deepEqual(parseModelReply('{"ok": true}'), { status: 'approved' });
+  assert.deepEqual(parseModelReply('{"ok": false, "grund": "Zu teuer.", "schwere": "leicht"}'), {
+    status: 'rejected',
+    grund: 'Zu teuer.',
+    schwere: 'leicht',
+  });
+  assert.equal(parseModelReply('{"ok": false, "grund": "Gefährlich.", "schwere": "mittel"}').status, 'pending');
+  assert.equal(parseModelReply('kein json').status, 'pending');
+  assert.equal(parseModelReply('{"ok": false}').status, 'pending');
 });
 
 test('ohne KI bleibt eine harmlose Aufgabe ungeprüft', () => {

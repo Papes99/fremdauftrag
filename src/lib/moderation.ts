@@ -91,3 +91,31 @@ export function releaseDecision(text: string, aiAvailable: boolean): Release {
   if (!aiAvailable) return { status: 'pending' };
   return { status: 'approved' };
 }
+
+export const MODEL_SYSTEM_PROMPT = `Du prüfst kurze Aufgaben, die ein anonymer Nutzer für einen fremden Erwachsenen schreibt. Die Aufgabe muss sicher, legal, freundlich, freiwillig, in unter 30 Minuten machbar und kostenlos oder sehr günstig sein. Sie darf niemanden bedrängen, keine persönlichen Daten enthalten, keinen Kontakt zum Autor herstellen und nichts mit Alkohol, Drogen, Sexualität, Gewalt, Hungern, Fasten, Diät, Kalorienzwang, extremem Training, Selbstgefährdung, Hass oder Werbung zu tun haben. Normales Essen und Trinken ist erlaubt.
+
+Antworte ausschließlich als JSON:
+{"ok": true} oder {"ok": false, "grund": "<kurzer freundlicher Grund auf Deutsch, max. 80 Zeichen>", "schwere": "schwer"} oder {"ok": false, "grund": "<Grund>", "schwere": "leicht"}
+Nur Gefahr, Illegales, Sexualität, Hass, Bedrängen und Ähnliches ist "schwer". Zu teuer, Auto oder besondere Fähigkeiten ist "leicht".`;
+
+export type ModelReply =
+  | { status: 'approved' }
+  | { status: 'rejected'; grund: string; schwere: Severity }
+  | { status: 'pending' };
+
+/** Kaputtes oder unvollständiges JSON gibt nichts frei. */
+export function parseModelReply(raw: string): ModelReply {
+  try {
+    const data: unknown = JSON.parse(raw);
+    if (!data || typeof data !== 'object') return { status: 'pending' };
+    const row = data as { ok?: unknown; grund?: unknown; schwere?: unknown };
+    if (row.ok === true) return { status: 'approved' };
+    if (row.ok !== false || typeof row.grund !== 'string') return { status: 'pending' };
+    const grund = row.grund.trim().slice(0, 80);
+    if (!grund) return { status: 'pending' };
+    if (row.schwere !== 'schwer' && row.schwere !== 'leicht') return { status: 'pending' };
+    return { status: 'rejected', grund, schwere: row.schwere };
+  } catch {
+    return { status: 'pending' };
+  }
+}

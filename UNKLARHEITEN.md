@@ -16,7 +16,7 @@ Nachfragen nur noch bei Geld, neuen Konten, Schlüsseln, rechtlichen Texten oder
 | 2 | Meldungen | Aufgabe von einem Menschen: 1 Meldung reicht, sofort durch eine Startpool-Aufgabe ersetzen. Startpool, Themenpaket und Sponsor: erst ab 2 Meldungen. |
 | 3 | Strikes | Die KI antwortet zusätzlich mit „schwer“ oder „leicht“. Nur „schwer“ gibt einen Strike. „Zu teuer“ oder „braucht ein Auto“ ist nur eine Ablehnung. |
 | 4 | Essen | Normales Essen und Trinken ist erlaubt. Abgelehnt werden Hungern, Fasten, Diät, Kalorien, Ess-Challenges und extremes Training. |
-| 5 | Alter | Es wird nur gespeichert, dass die Person mindestens 16 ist. Das Geburtsjahr wird nicht gespeichert. Unter 16: freundliche Absage, kein Konto. |
+| 5 | Alter | Es wird nur gespeichert, dass die Person mindestens 16 ist. Das Geburtsjahr wird nicht gespeichert. Wer genau im Grenzjahr geboren ist (aktuelles Jahr minus 16), bekommt die Frage „Hattest du dieses Jahr schon Geburtstag?“. Bei Nein: freundliche Absage. Auch diese Antwort wird nicht gespeichert. Jünger als das Grenzjahr: freundliche Absage, kein Konto. Geändert am 29.09.2026. |
 | 6 | Supabase | Noch kein Konto anlegen. Meilenstein 1 läuft ohne echte Anmeldung und zeigt deutlich „noch nicht verbunden“. |
 
 ---
@@ -37,8 +37,8 @@ Nachfragen nur noch bei Geld, neuen Konten, Schlüsseln, rechtlichen Texten oder
 
 ## Selbst entschieden
 
-- **Altersprüfung ohne Monat.** Die Person wählt ein Geburtsjahr. Alt genug ist, wer im aktuellen Jahr mindestens 16 wird (`Jahr <= aktuelles Jahr minus 16`). Den Monat fragen wir nicht. Jahre unter 16 stehen in der Liste und führen zur Absage. Das Jahr wird dabei nicht gespeichert.
-- **Altersprüfung liegt in Meilenstein 1 auf dem Gerät.** Einen Server, der das prüfen könnte, gibt es noch nicht.
+- **Altersprüfung im Grenzjahr.** Die Person wählt ein Geburtsjahr. Liegt das Jahr vor dem Grenzjahr (aktuelles Jahr minus 16), ist sie alt genug. Liegt es genau im Grenzjahr, kommt die Frage „Hattest du dieses Jahr schon Geburtstag?“. Nur Ja geht weiter. Nein führt zur Absage. Jüngere Jahre führen ohne diese Frage zur Absage. Jahr und Antwort werden nicht gespeichert. Wer die App schon vor dieser Änderung durchlaufen hat, wird nicht noch einmal gefragt, weil das Jahr nie gespeichert wurde.
+- **Altersprüfung liegt auf dem Gerät.** Einen Server, der das prüfen könnte, gibt es noch nicht.
 - **Speicher auf dem Gerät.** Fürs Onboarding reicht AsyncStorage. Fotos und Notizen bleiben auf dem Gerät.
 - **Bundle-Kennung:** `de.fremdauftrag.app`. Lässt sich vor dem Store noch ändern.
 - **Kontrast.** Auf dem orangen Knopf steht dunkle Schrift. Weiße Schrift auf diesem Orange wäre zu hell und schwer lesbar.
@@ -47,7 +47,7 @@ Nachfragen nur noch bei Geld, neuen Konten, Schlüsseln, rechtlichen Texten oder
 ### Nach dem Bau, 29.09.2026
 
 - **Die App läuft vollständig auf dem Gerät**, solange es keinen Server gibt. Morgens kommen 3 Aufgaben aus dem geprüften Startpool. Es wird kein fremder Mensch erfunden.
-- **Schreiben:** Der Wortfilter lehnt sofort ab. Was unauffällig ist, bleibt „nicht freigegeben“, weil die KI (Mistral) fehlt. Nichts geht an eine andere Person.
+- **Meilenstein 2, Server-Prüfung liegt nur als Datei bereit.** `supabase/functions/moderate-task` prüft zuerst den Wortfilter und fragt danach Mistral. Fällt die KI aus oder fehlt der Schlüssel, bleibt die Aufgabe ungeprüft. Die Datei ist nicht veröffentlicht, weil es noch kein Supabase-Projekt gibt. Auf dem Gerät prüft weiter der Wortfilter. Zusätzliche Sperrwörter können später in `moderation_terms` gepflegt werden. Diese Tabelle ist ebenfalls noch nicht angelegt.
 - **Dieselbe schwere Aufgabe am selben Tag** zählt nur einen Hinweis, auch wenn du zweimal auf Prüfen tippst. Drei verschiedene schwere Aufgaben zählen drei.
 - **Erledigt und Heute nicht** lassen sich bis zum Tagesende noch umschalten, falls der falsche Knopf getroffen wurde.
 - **Pause** beginnt am nächsten Morgen, wenn heute schon Aufgaben da sind. Sonst sofort.

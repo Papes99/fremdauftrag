@@ -1,12 +1,32 @@
 /**
- * Altersgrenze nur über das Jahr.
- * Alt genug ist, wer im laufenden Kalenderjahr mindestens 16 wird.
- * Den Monat fragen wir nicht, weil das Geburtsdatum nicht gespeichert wird.
+ * Altersgrenze über das Jahr, plus eine Frage nur im Grenzjahr.
+ * Das Jahr und die Geburtstagsantwort werden nicht gespeichert.
  */
-export function isOldEnough(birthYear: number, now = new Date()): boolean {
-  if (!Number.isInteger(birthYear)) return false;
+export type AgeGate = 'allow' | 'refuse' | 'ask';
+
+export function boundaryYear(now = new Date()): number {
+  return now.getFullYear() - 16;
+}
+
+export function ageGate(birthYear: number, now = new Date()): AgeGate {
+  if (!Number.isInteger(birthYear)) return 'refuse';
   const year = now.getFullYear();
-  return birthYear <= year - 16 && birthYear >= year - 120;
+  if (birthYear < year - 120 || birthYear > year) return 'refuse';
+  if (birthYear < year - 16) return 'allow';
+  if (birthYear === year - 16) return 'ask';
+  return 'refuse';
+}
+
+/** Ja zur Geburtstagsfrage zählt nur im Grenzjahr. Sonst wird die Antwort ignoriert. */
+export function isOldEnough(
+  birthYear: number,
+  hadBirthdayThisYear: boolean | null = null,
+  now = new Date(),
+): boolean {
+  const gate = ageGate(birthYear, now);
+  if (gate === 'allow') return true;
+  if (gate === 'ask') return hadBirthdayThisYear === true;
+  return false;
 }
 
 /** Jahre für die Auswahl, inklusive einiger Jahre unter 16, damit die Absage erreichbar ist. */

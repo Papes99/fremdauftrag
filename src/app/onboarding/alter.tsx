@@ -1,12 +1,12 @@
 import { router } from 'expo-router';
 import { useMemo, useState } from 'react';
-import { Pressable, ScrollView } from 'react-native';
+import { Pressable, ScrollView, View } from 'react-native';
 import { AppText } from '@/components/AppText';
 import { Button } from '@/components/Button';
 import { Screen } from '@/components/Screen';
 import { TopBar } from '@/components/TopBar';
 import { copy, fill } from '@/i18n';
-import { birthYearOptions, isOldEnough } from '@/lib/age';
+import { ageGate, birthYearOptions } from '@/lib/age';
 import { useSession, type LocalSession } from '@/lib/session';
 import { useTheme } from '@/theme/ThemeProvider';
 
@@ -15,15 +15,17 @@ export default function AgeScreen() {
   const { session, save } = useSession();
   const years = useMemo(() => birthYearOptions(), []);
   const [selected, setSelected] = useState<number | null>(null);
+  const [hadBirthday, setHadBirthday] = useState<boolean | null>(null);
   const [busy, setBusy] = useState(false);
+  const gate = selected === null ? null : ageGate(selected);
 
-  async function onContinue() {
-    if (selected === null || busy) return;
-    if (!isOldEnough(selected)) {
-      router.push('/onboarding/absage');
-      return;
-    }
-    // Das Jahr selbst wird nicht mitgeschrieben.
+  function chooseYear(year: number) {
+    setSelected(year);
+    setHadBirthday(null);
+  }
+
+  async function confirm() {
+    // Jahr und Geburtstagsantwort werden nicht mitgeschrieben.
     const next: LocalSession = {
       onboardingComplete: false,
       ageConfirmed: true,
@@ -38,15 +40,46 @@ export default function AgeScreen() {
     router.push('/onboarding/mitteilungen');
   }
 
+  async function onContinue() {
+    if (selected === null || busy || gate === null) return;
+    if (gate === 'refuse') {
+      router.push('/onboarding/absage');
+      return;
+    }
+    if (gate === 'ask') {
+      if (hadBirthday !== true) return;
+    }
+    await confirm();
+  }
+
+  function onBirthdayNo() {
+    setHadBirthday(false);
+    router.push('/onboarding/absage');
+  }
+
   return (
     <Screen
       footer={
-        <Button
-          label={copy.age.continue}
-          onPress={onContinue}
-          disabled={selected === null || busy}
-          accessibilityHint={selected === null ? copy.age.chooseFirst : undefined}
-        />
+        <View style={{ gap: 10 }}>
+          {gate === 'ask' ? (
+            <View style={{ gap: 10 }}>
+              <AppText variant="label">{copy.age.birthdayQuestion}</AppText>
+              <AppText variant="muted">{copy.age.birthdayHint}</AppText>
+              <Button
+                label={copy.age.birthdayYes}
+                variant={hadBirthday === true ? 'primary' : 'secondary'}
+                onPress={() => setHadBirthday(true)}
+              />
+              <Button label={copy.age.birthdayNo} variant="secondary" onPress={onBirthdayNo} />
+            </View>
+          ) : null}
+          <Button
+            label={copy.age.continue}
+            onPress={onContinue}
+            disabled={selected === null || busy || (gate === 'ask' && hadBirthday !== true)}
+            accessibilityHint={selected === null ? copy.age.chooseFirst : undefined}
+          />
+        </View>
       }
     >
       <TopBar title={copy.age.title} onBack={() => router.back()} />
@@ -60,7 +93,7 @@ export default function AgeScreen() {
               accessibilityRole="button"
               accessibilityLabel={fill(copy.age.yearLabel, { year })}
               accessibilityState={{ selected: active }}
-              onPress={() => setSelected(year)}
+              onPress={() => chooseYear(year)}
               style={{
                 minHeight: 48,
                 borderRadius: 14,

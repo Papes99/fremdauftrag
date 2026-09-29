@@ -1,20 +1,34 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { birthYearOptions, isOldEnough } from './age.ts';
+import { ageGate, birthYearOptions, boundaryYear, isOldEnough } from './age.ts';
 
 const today = new Date('2026-09-29T12:00:00Z');
 
-test('wer 2010 geboren ist, gilt 2026 als alt genug', () => {
-  assert.equal(isOldEnough(2010, today), true);
+test('2026 ist das Grenzjahr 2010', () => {
+  assert.equal(boundaryYear(today), 2010);
+  assert.equal(ageGate(2010, today), 'ask');
 });
 
-test('wer 2011 geboren ist, ist 2026 noch unter 16', () => {
-  assert.equal(isOldEnough(2011, today), false);
+test('wer vor dem Grenzjahr geboren ist, ist ohne Nachfrage alt genug', () => {
+  assert.equal(ageGate(2009, today), 'allow');
+  assert.equal(isOldEnough(2009, null, today), true);
+  assert.equal(isOldEnough(2009, false, today), true);
+});
+
+test('im Grenzjahr zählt nur ein Ja, und ein Nein führt zur Absage', () => {
+  assert.equal(isOldEnough(2010, true, today), true);
+  assert.equal(isOldEnough(2010, false, today), false);
+  assert.equal(isOldEnough(2010, null, today), false);
+});
+
+test('wer nach dem Grenzjahr geboren ist, ist noch unter 16', () => {
+  assert.equal(ageGate(2011, today), 'refuse');
+  assert.equal(isOldEnough(2011, true, today), false);
 });
 
 test('unsinnige Jahre gelten nicht', () => {
-  assert.equal(isOldEnough(1800, today), false);
-  assert.equal(isOldEnough(2026, today), false);
+  assert.equal(ageGate(1800, today), 'refuse');
+  assert.equal(ageGate(2026, today), 'refuse');
   assert.equal(isOldEnough(1990.5, today), false);
 });
 

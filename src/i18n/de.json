@@ -29,6 +29,10 @@
     "title": "Wie alt bist du?",
     "body": "Fremdauftrag ist für Menschen ab 16. Wir merken uns nur, dass du alt genug bist. Dein Geburtsjahr speichern wir nicht.",
     "yearLabel": "Geburtsjahr {year}",
+    "birthdayQuestion": "Hattest du dieses Jahr schon Geburtstag?",
+    "birthdayHint": "Auch diese Antwort speichern wir nicht.",
+    "birthdayYes": "Ja, schon",
+    "birthdayNo": "Nein, noch nicht",
     "continue": "Weiter",
     "chooseFirst": "Wähl zuerst dein Geburtsjahr."
   },
@@ -174,7 +178,7 @@
     "note": "Platzhalter. Dieser Text wird juristisch geprüft und danach ersetzt. Er ist noch nicht die endgültige Fassung.",
     "privacy": {
       "title": "Datenschutz",
-      "body": "Platzhalter. Es gibt noch keinen Server. Auf diesem Gerät liegen das Onboarding, die Aufgaben aus dem Startpool, deine Notizen und optional Fotos. Nichts davon wird hochgeladen. Kein Name, keine E-Mail, kein Geburtsjahr, kein Standort."
+      "body": "Platzhalter. Es gibt noch keinen Server. Auf diesem Gerät liegen das Onboarding, die Aufgaben aus dem Startpool, deine Notizen und optional Fotos. Nichts davon wird hochgeladen. Kein Name, keine E-Mail, kein Geburtsjahr, keine Antwort auf die Geburtstagsfrage, kein Standort."
     },
     "imprint": {
       "title": "Impressum",
@@ -225,6 +229,7 @@
     "lockWeek": "Schreiben pausiert bis {date}.",
     "yesterday": "Deine Aufgaben von gestern warten noch hier. Ein Fremder hat sie nicht bekommen, weil der Server fehlt.",
     "hint": "Ohne die KI geben wir nichts frei. Der Wortfilter prüft sofort und lässt Gefährliches nicht durch.",
+    "checking": "Der Wortfilter prüft gerade …",
     "field": "Aufgabe {index}",
     "placeholder": "Eine kleine, freundliche Aufgabe",
     "counter": "{count}/140",
