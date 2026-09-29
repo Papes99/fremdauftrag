@@ -1,4 +1,5 @@
 import { router } from 'expo-router';
+import { useState } from 'react';
 import { View } from 'react-native';
 import { AppPage } from '@/components/AppPage';
 import { AppText } from '@/components/AppText';
@@ -8,9 +9,11 @@ import { Card } from '@/components/Card';
 import { TopBar } from '@/components/TopBar';
 import { copy } from '@/i18n';
 import { useJournal } from '@/lib/journal';
+import { purchasePack } from '@/lib/purchases';
 
 export default function ShopScreen() {
   const { ready, view, packs, patchSettings } = useJournal();
+  const [note, setNote] = useState<string | null>(null);
   if (!ready || !view) return <BootMark />;
   return (
     <AppPage>
@@ -27,7 +30,14 @@ export default function ShopScreen() {
               <AppText variant="muted">{copy.shop.examples}</AppText>
               <AppText variant="body">{pack.tasks[0]?.text}</AppText>
               <AppText variant="body">{pack.tasks[1]?.text}</AppText>
-              <Button label={copy.shop.buy} disabled onPress={() => undefined} />
+              <Button
+                label={copy.shop.buy}
+                variant="secondary"
+                onPress={() => {
+                  purchasePack(pack.id);
+                  setNote(copy.shop.notCharged);
+                }}
+              />
               <Button
                 label={active ? copy.shop.active : copy.shop.tryLocal}
                 variant={active ? 'primary' : 'secondary'}
@@ -38,6 +48,7 @@ export default function ShopScreen() {
           </Card>
         );
       })}
+      {note ? <AppText variant="muted">{note}</AppText> : null}
     </AppPage>
   );
 }

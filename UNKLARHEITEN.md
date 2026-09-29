@@ -85,7 +85,8 @@ Nicht in den Chat schicken: geheime Schlüssel, Passwörter, `service_role`.
 
 ## Meilenstein 6 bis 10
 
-- **Meilenstein 6 bis 10, entschieden am 29.09.2026.** Die Tageskarte zeigt drei Blätter, die Streak und, falls du geschrieben hast, den Satz „Du hast heute auch geschrieben.“ Sie sagt nicht, dass ein Fremder den Text bekommen hat. Teilen und Speichern laufen über das System. Themenpakete kann man auf diesem Gerät anschalten, ohne zu kaufen. Der Kaufknopf bleibt aus, bis RevenueCat da ist. Sponsor-Aufgaben bleiben serverseitig aus. Wenn sie später angehen, gilt höchstens eine pro Woche, bei „selten“ eine pro Monat. Mitteilungen sind höchstens morgens und abends, in der Pause keine. Die Kamera fragt erst nach einer kurzen Erklärung. Die Store-Altersfreigabe steht weiter unten. Ein echter TestFlight- oder Play-Build braucht dein Expo-Konto und die Store-Konten. Die Dateien dafür liegen bereit, der Build wird von hier nicht gestartet. Die App bleibt unter 16 zu.
+- **Empfänger sehen nie den Autor.** Die Datenbank-Sicht gibt nur Text und Quelle zurück, und nur die eigene Zeile. Die Tabelle mit `author_id` ist für die App gesperrt. Noch nicht ausgeführt, weil es kein Supabase-Projekt gibt.
+- **Ohne Internet** bleiben die heutigen Aufgaben da. Abhaken geht weiter. Abschicken von neuen Texten wartet, bis die Verbindung wieder da ist. Der Text bleibt auf dem Gerät.
 
 ### Kamera, jetzt in der App
 

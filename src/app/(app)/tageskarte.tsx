@@ -80,7 +80,10 @@ export default function CardScreen() {
 
   async function act(kind: 'share' | 'save') {
     const dataUrl = drawPoster({ day: view!.today, done, streak: view!.streak, wrote: view!.wroteToday, quote, colors });
-    if (!dataUrl) return;
+    if (!dataUrl) {
+      setNote(copy.card.noImage);
+      return;
+    }
     if (kind === 'share' && typeof navigator !== 'undefined' && navigator.share) {
       try {
         const blob = await (await fetch(dataUrl)).blob();

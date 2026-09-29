@@ -11,7 +11,7 @@ import { copy, fill } from '@/i18n';
 import { shiftMinutes, type Weekday } from '@/lib/clock';
 import { formatDay } from '@/lib/clock';
 import { useJournal } from '@/lib/journal';
-import { syncLocalReminders } from '@/lib/notifications';
+import { askPushPermission, syncLocalReminders } from '@/lib/notifications';
 import { useSession } from '@/lib/session';
 import { useTheme } from '@/theme/ThemeProvider';
 
@@ -167,12 +167,18 @@ export default function SettingsScreen() {
         <Toggle
           label={copy.settings.notifyMorning}
           on={settings.notifyMorning}
-          onPress={() => patchSettings({ notifyMorning: !settings.notifyMorning })}
+          onPress={() => {
+            if (!settings.notifyMorning) askPushPermission().catch(() => undefined);
+            patchSettings({ notifyMorning: !settings.notifyMorning });
+          }}
         />
         <Toggle
           label={copy.settings.notifyEvening}
           on={settings.notifyEvening}
-          onPress={() => patchSettings({ notifyEvening: !settings.notifyEvening })}
+          onPress={() => {
+            if (!settings.notifyEvening) askPushPermission().catch(() => undefined);
+            patchSettings({ notifyEvening: !settings.notifyEvening });
+          }}
         />
         <AppText variant="muted" style={{ marginTop: 8 }}>
           {copy.settings.notifyBody}

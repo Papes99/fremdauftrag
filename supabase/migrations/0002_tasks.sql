@@ -66,7 +66,8 @@ create table public.sponsors (
   enabled boolean not null default false
 );
 
-create or replace view public.my_assignment_tasks as
+create or replace view public.my_assignment_tasks
+with (security_invoker = false) as
 select
   a.receiver_id,
   a.day,
@@ -74,7 +75,8 @@ select
   t.text,
   t.source
 from public.assignments a
-join public.tasks t on t.id = any (a.task_ids);
+join public.tasks t on t.id = any (a.task_ids)
+where a.receiver_id = auth.uid();
 
 alter table public.tasks enable row level security;
 alter table public.task_sets enable row level security;
@@ -86,3 +88,4 @@ alter table public.sponsors enable row level security;
 
 revoke all on table public.tasks, public.task_sets, public.assignments, public.completions, public.reports, public.theme_packs, public.sponsors from public, anon, authenticated;
 revoke all on table public.my_assignment_tasks from public, anon, authenticated;
+grant select on table public.my_assignment_tasks to authenticated;

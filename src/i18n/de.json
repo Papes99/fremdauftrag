@@ -234,6 +234,7 @@
     "echoNone": "Es gibt noch keine Rückmeldung. Deine Aufgaben sind bei niemandem angekommen, weil der Server fehlt.",
     "echoCount": "Dein Fremder von gestern hat {done} von {total} Aufgaben erledigt.",
     "hint": "Ohne die KI geben wir nichts frei. Der Wortfilter prüft sofort und lässt Gefährliches nicht durch.",
+    "offline": "Ohne Internet bleibt der Text hier. Abschicken geht erst wieder mit Verbindung.",
     "checking": "Der Wortfilter prüft gerade …",
     "field": "Aufgabe {index}",
     "placeholder": "Eine kleine, freundliche Aufgabe",
@@ -271,6 +272,7 @@
     "share": "Teilen",
     "save": "Speichern",
     "saved": "Die Karte ist gespeichert.",
+    "noImage": "Hier kann die Karte gerade nicht als Bild gespeichert werden.",
     "noTasks": "Auf der Karte stehen keine Aufgabentexte.",
     "quotes": [
       "Klein ist genug.",
@@ -292,6 +294,7 @@
     "body": "Einmal kaufen, dann mischt sich eine Aufgabe daraus in den Morgen. Kaufen geht erst, wenn der Shop verbunden ist. Es wird jetzt nichts abgebucht.",
     "examples": "Zwei Beispiele",
     "buy": "Kauf noch nicht möglich",
+    "notCharged": "Es wurde nichts abgebucht. Der Shop ist noch nicht verbunden.",
     "tryLocal": "Auf diesem Gerät anschalten",
     "active": "An. Tippen schaltet es aus.",
     "tryNote": "Das ist kein Kauf. Es wird nichts abgebucht."

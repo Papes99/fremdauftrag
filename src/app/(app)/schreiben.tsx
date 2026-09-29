@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { TextInput, View } from 'react-native';
 import { AppPage } from '@/components/AppPage';
 import { AppText } from '@/components/AppText';
@@ -14,11 +14,23 @@ export default function WriteScreen() {
   const { colors, fonts } = useTheme();
   const { ready, view, editLine, newHints, submit } = useJournal();
   const [checking, setChecking] = useState(false);
+  const [offline, setOffline] = useState(false);
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const update = () => setOffline(window.navigator.onLine === false);
+    update();
+    window.addEventListener('online', update);
+    window.addEventListener('offline', update);
+    return () => {
+      window.removeEventListener('online', update);
+      window.removeEventListener('offline', update);
+    };
+  }, []);
   if (!ready || !view) return <BootMark />;
   const draft = view.draft;
 
   async function onSubmit() {
-    if (checking) return;
+    if (checking || offline) return;
     setChecking(true);
     await new Promise((resolve) => setTimeout(resolve, 450));
     submit();
@@ -50,6 +62,7 @@ export default function WriteScreen() {
         </Card>
       ) : null}
       <AppText variant="muted">{copy.write.hint}</AppText>
+      {offline ? <AppText variant="body">{copy.write.offline}</AppText> : null}
       {draft?.lines.map((line, index) => {
         const reason = line.key ? copy.moderation.reasons[line.key] : '';
         return (
@@ -89,7 +102,7 @@ export default function WriteScreen() {
       {view.lock === 'none' ? (
         <View style={{ gap: 10 }}>
           <Button label={copy.write.idea} variant="secondary" onPress={newHints} />
-          <Button label={checking ? copy.write.checking : copy.write.submit} onPress={onSubmit} disabled={checking} />
+          <Button label={checking ? copy.write.checking : copy.write.submit} onPress={onSubmit} disabled={checking || offline} />
         </View>
       ) : null}
     </AppPage>

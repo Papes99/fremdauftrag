@@ -16,6 +16,7 @@ import {
   setTaskStatus,
   submitDraft,
   tick,
+  updateSettings,
   type Catalogs,
 } from './journalLogic.ts';
 
@@ -157,6 +158,26 @@ test('Schreiben zählt auf der Karte erst, wenn alle drei geprüft und nicht abg
   assert.equal(project(state, morning, 'Europe/Berlin').wroteToday, false);
   state = submitDraft(state, morning, catalogs, 'Europe/Berlin');
   assert.equal(project(state, morning, 'Europe/Berlin').wroteToday, true);
+});
+
+test('ein Paket ersetzt genau eine von drei Aufgaben am nächsten Tag', () => {
+  let state = createJournal(morning, 'sess', 'Europe/Berlin', catalogs);
+  state = updateSettings(state, { activePackId: 'herbst' });
+  const next = tick(state, new Date('2026-09-30T08:00:00Z'), catalogs, 'Europe/Berlin');
+  const tasks = next.assignments[1]!.tasks;
+  assert.equal(tasks.filter((task) => task.source === 'pack').length, 1);
+  assert.equal(tasks.filter((task) => task.source === 'seed').length, 2);
+});
+
+test('ein Sponsor kommt einmal und nicht am nächsten Tag noch einmal', () => {
+  const on = { ...catalogs, sponsorsEnabled: true };
+  let state = createJournal(morning, 'sess', 'Europe/Berlin', on);
+  state = updateSettings(state, { sponsorMode: 'weekly' });
+  const second = tick(state, new Date('2026-09-30T08:00:00Z'), on, 'Europe/Berlin');
+  const third = tick(second, new Date('2026-10-01T08:00:00Z'), on, 'Europe/Berlin');
+  const sponsors = third.assignments.flatMap((assignment) => assignment.tasks.filter((task) => task.source === 'sponsor'));
+  assert.equal(sponsors.length, 1);
+  assert.equal((sponsors[0]!.sponsorName ?? '').length > 0, true);
 });
 
 test('Pause beginnt am nächsten Morgen, wenn heute schon Aufgaben da sind', () => {
