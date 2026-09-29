@@ -138,6 +138,7 @@
     "pauseBody": "1 bis 14 Tage keine neuen Aufgaben. Die Streak friert ein.",
     "pauseActive": "Pause bis {date}.",
     "pauseDays": "{count} Tage",
+    "pauseOne": "1 Tag",
     "pauseEnd": "Pause beenden",
     "notifyTitle": "Mitteilungen",
     "notifyMorning": "Morgens",

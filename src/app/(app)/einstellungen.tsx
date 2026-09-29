@@ -157,7 +157,7 @@ export default function SettingsScreen() {
         </AppText>
         <View style={{ gap: 8, marginTop: 12 }}>
           {[1, 3, 7, 14].map((days) => (
-            <Button key={days} label={fill(copy.settings.pauseDays, { count: days })} variant="secondary" onPress={() => pauseFor(days)} />
+            <Button key={days} label={days === 1 ? copy.settings.pauseOne : fill(copy.settings.pauseDays, { count: days })} variant="secondary" onPress={() => pauseFor(days)} />
           ))}
           <Button label={copy.settings.pauseEnd} variant="ghost" onPress={() => pauseFor(null)} />
         </View>

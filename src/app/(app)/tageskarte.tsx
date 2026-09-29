@@ -7,7 +7,7 @@ import { LeafMark } from '@/components/LeafMark';
 import { BootMark } from '@/components/BootMark';
 import { copy, fill } from '@/i18n';
 import { formatDay } from '@/lib/clock';
-import { cardLines } from '@/lib/card';
+import { cardLines, streakLine } from '@/lib/card';
 import { hashString } from '@/lib/journalLogic';
 import { useJournal } from '@/lib/journal';
 
@@ -138,7 +138,7 @@ export default function CardScreen() {
             {fill(copy.card.count, { done })}
           </AppText>
           <AppText variant="label" color={colors.fg}>
-            {fill(copy.card.streak, { count: view.streak })}
+            {streakLine(view.streak)}
           </AppText>
           {view.wroteToday ? (
             <AppText variant="label" color={colors.accent}>
