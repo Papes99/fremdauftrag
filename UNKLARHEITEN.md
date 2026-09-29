@@ -86,6 +86,7 @@ Nicht in den Chat schicken: geheime Schlüssel, Passwörter, `service_role`.
 ## Meilenstein 6 bis 10
 
 - **Empfänger sehen nie den Autor.** Die Datenbank-Sicht gibt nur Text und Quelle zurück, und nur die eigene Zeile. Die Tabelle mit `author_id` ist für die App gesperrt. Noch nicht ausgeführt, weil es kein Supabase-Projekt gibt.
+- **Schichtmodus stellt Morgen und Abend pro Wochentag.** Tippe den Tag an. „Normal“ setzt ihn zurück. Die anderen Tage bleiben, wie sie sind.
 - **Ohne Internet** bleiben die heutigen Aufgaben da. Abhaken geht weiter. Abschicken von neuen Texten wartet, bis die Verbindung wieder da ist. Der Text bleibt auf dem Gerät.
 
 ### Kamera, jetzt in der App

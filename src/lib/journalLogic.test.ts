@@ -16,6 +16,7 @@ import {
   setTaskStatus,
   submitDraft,
   tick,
+  timesForDay,
   updateSettings,
   type Catalogs,
 } from './journalLogic.ts';
@@ -178,6 +179,17 @@ test('ein Sponsor kommt einmal und nicht am nächsten Tag noch einmal', () => {
   const sponsors = third.assignments.flatMap((assignment) => assignment.tasks.filter((task) => task.source === 'sponsor'));
   assert.equal(sponsors.length, 1);
   assert.equal((sponsors[0]!.sponsorName ?? '').length > 0, true);
+});
+
+test('ein Wochentag kann einen anderen Abend haben', () => {
+  let state = createJournal(morning, 'sess', 'Europe/Berlin', catalogs);
+  state = updateSettings(state, { overrides: { mo: { eveningStart: '12:00', eveningEnd: '16:00' } } });
+  const monday = timesForDay(state.settings, '2026-09-28');
+  const tuesday = timesForDay(state.settings, '2026-09-29');
+  assert.equal(monday.eveningStart, '12:00');
+  assert.equal(monday.eveningEnd, '16:00');
+  assert.equal(monday.morning, '07:00');
+  assert.equal(tuesday.eveningStart, '18:00');
 });
 
 test('Pause beginnt am nächsten Morgen, wenn heute schon Aufgaben da sind', () => {

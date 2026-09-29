@@ -4,7 +4,9 @@ Kleine anonyme Aufgaben von Fremden. Die App ist für iPhone und Android. Es gib
 
 ## Stand
 
-Die App ist auf dem Gerät spielbar, von der ersten Seite bis zur Tageskarte, den Themenpaketen ohne Kauf und den Einstellungen. Der Server, die KI, der Shop und die Sponsoren sind aus. Entscheidungen: [UNKLARHEITEN.md](./UNKLARHEITEN.md)
+Die App auf dem Gerät ist fertig: Onboarding, Altersfrage, drei Aufgaben am Tag, Schreiben mit Wortfilter, Streak, Verlauf, Tageskarte, Schichtzeiten, Pause, Mitteilungen, Export, Löschen, Regeln, Themenpakete ohne Kauf.
+
+Noch nicht verbunden, weil dafür Konten nötig sind: Server, KI-Prüfung, echter Kauf, Sponsoren, Store. Die Rechtstexte sind Platzhalter. Entscheidungen: [UNKLARHEITEN.md](./UNKLARHEITEN.md)
 
 ## Was du selbst tun musst, bevor die App in den Store kann
 

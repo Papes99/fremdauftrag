@@ -134,6 +134,15 @@
     "shiftHide": "Schichtmodus zuklappen",
     "likeNormal": "Wie an den anderen Tagen",
     "resetDay": "Normal",
+    "weekdays": {
+      "mo": "Montag",
+      "di": "Dienstag",
+      "mi": "Mittwoch",
+      "do": "Donnerstag",
+      "fr": "Freitag",
+      "sa": "Samstag",
+      "so": "Sonntag"
+    },
     "pauseTitle": "Pause",
     "pauseBody": "1 bis 14 Tage keine neuen Aufgaben. Die Streak friert ein.",
     "pauseActive": "Pause bis {date}.",

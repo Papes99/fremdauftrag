@@ -16,13 +16,13 @@ import { useSession } from '@/lib/session';
 import { useTheme } from '@/theme/ThemeProvider';
 
 const days: { id: Weekday; label: string }[] = [
-  { id: 'mo', label: 'Montag' },
-  { id: 'di', label: 'Dienstag' },
-  { id: 'mi', label: 'Mittwoch' },
-  { id: 'do', label: 'Donnerstag' },
-  { id: 'fr', label: 'Freitag' },
-  { id: 'sa', label: 'Samstag' },
-  { id: 'so', label: 'Sonntag' },
+  { id: 'mo', label: copy.settings.weekdays.mo },
+  { id: 'di', label: copy.settings.weekdays.di },
+  { id: 'mi', label: copy.settings.weekdays.mi },
+  { id: 'do', label: copy.settings.weekdays.do },
+  { id: 'fr', label: copy.settings.weekdays.fr },
+  { id: 'sa', label: copy.settings.weekdays.sa },
+  { id: 'so', label: copy.settings.weekdays.so },
 ];
 
 const links = [
@@ -40,6 +40,7 @@ export default function SettingsScreen() {
   const { ready, view, patchSettings, pauseFor, exportJson, wipe } = useJournal();
   const { session, forget } = useSession();
   const [shiftOpen, setShiftOpen] = useState(false);
+  const [openDay, setOpenDay] = useState<Weekday | null>(null);
   const [confirmDelete, setConfirmDelete] = useState(false);
 
   useEffect(() => {
@@ -58,6 +59,16 @@ export default function SettingsScreen() {
 
   function step(field: 'morning' | 'eveningStart' | 'eveningEnd', delta: number) {
     patchSettings({ [field]: shiftMinutes(settings[field], delta) });
+  }
+
+  function setDay(day: Weekday, field: 'morning' | 'eveningStart' | 'eveningEnd', delta: number) {
+    const current = settings.overrides[day]?.[field] ?? settings[field];
+    patchSettings({
+      overrides: {
+        ...settings.overrides,
+        [day]: { ...settings.overrides[day], [field]: shiftMinutes(current, delta) },
+      },
+    });
   }
 
   async function download() {
@@ -108,41 +119,51 @@ export default function SettingsScreen() {
         <Button label={shiftOpen ? copy.settings.shiftHide : copy.settings.shiftShow} variant="ghost" onPress={() => setShiftOpen((open) => !open)} />
         {shiftOpen
           ? days.map((day) => {
-              const custom = settings.overrides[day.id]?.morning;
+              const extra = settings.overrides[day.id];
+              const open = openDay === day.id;
+              const summary = extra
+                ? `${extra.morning ?? settings.morning} · ${extra.eveningStart ?? settings.eveningStart}–${extra.eveningEnd ?? settings.eveningEnd}`
+                : copy.settings.likeNormal;
               return (
                 <View key={day.id} style={{ marginTop: 12, gap: 6 }}>
-                  <AppText variant="label">{day.label}</AppText>
-                  <AppText variant="muted">{custom ? custom : copy.settings.likeNormal}</AppText>
-                  <View style={{ flexDirection: 'row', gap: 8 }}>
-                    <Button
-                      label="−"
-                      variant="secondary"
-                      style={{ flex: 1 }}
-                      onPress={() => {
-                        const morning = shiftMinutes(custom ?? settings.morning, -30);
-                        patchSettings({ overrides: { ...settings.overrides, [day.id]: { ...settings.overrides[day.id], morning } } });
-                      }}
-                    />
-                    <Button
-                      label="+"
-                      variant="secondary"
-                      style={{ flex: 1 }}
-                      onPress={() => {
-                        const morning = shiftMinutes(custom ?? settings.morning, 30);
-                        patchSettings({ overrides: { ...settings.overrides, [day.id]: { ...settings.overrides[day.id], morning } } });
-                      }}
-                    />
-                    <Button
-                      label={copy.settings.resetDay}
-                      variant="ghost"
-                      style={{ flex: 1 }}
-                      onPress={() => {
-                        const overrides = { ...settings.overrides };
-                        delete overrides[day.id];
-                        patchSettings({ overrides });
-                      }}
-                    />
-                  </View>
+                  <Pressable
+                    accessibilityRole="button"
+                    accessibilityLabel={day.label}
+                    accessibilityState={{ expanded: open }}
+                    onPress={() => setOpenDay(open ? null : day.id)}
+                    style={{ minHeight: 48, justifyContent: 'center' }}
+                  >
+                    <AppText variant="label">{day.label}</AppText>
+                    <AppText variant="muted">{summary}</AppText>
+                  </Pressable>
+                  {open ? (
+                    <View style={{ gap: 4 }}>
+                      <Stepper
+                        label={copy.settings.morning}
+                        value={extra?.morning ?? settings.morning}
+                        onShift={(delta) => setDay(day.id, 'morning', delta)}
+                      />
+                      <Stepper
+                        label={copy.settings.eveningStart}
+                        value={extra?.eveningStart ?? settings.eveningStart}
+                        onShift={(delta) => setDay(day.id, 'eveningStart', delta)}
+                      />
+                      <Stepper
+                        label={copy.settings.eveningEnd}
+                        value={extra?.eveningEnd ?? settings.eveningEnd}
+                        onShift={(delta) => setDay(day.id, 'eveningEnd', delta)}
+                      />
+                      <Button
+                        label={copy.settings.resetDay}
+                        variant="ghost"
+                        onPress={() => {
+                          const overrides = { ...settings.overrides };
+                          delete overrides[day.id];
+                          patchSettings({ overrides });
+                        }}
+                      />
+                    </View>
+                  ) : null}
                 </View>
               );
             })
