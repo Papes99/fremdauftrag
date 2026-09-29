@@ -55,7 +55,7 @@ Nachfragen nur noch bei Geld, neuen Konten, Schlüsseln, rechtlichen Texten oder
 - **Erledigt und Heute nicht** lassen sich bis zum Tagesende noch umschalten, falls der falsche Knopf getroffen wurde.
 - **Pause** beginnt am nächsten Morgen, wenn heute schon Aufgaben da sind. Sonst sofort.
 - **Zeitzone** kommt vom Gerät. Wechselt sie mitten am Tag, gibt es kein zweites Aufgabenset an demselben Kalendertag.
-- **Fotos** nur aus der Galerie, nicht mit der Kamera. Sie bleiben auf dem Gerät und fehlen im Export.
+- **Fotos** aus der Galerie oder mit der Kamera. Die Kamera fragt erst nach einer kurzen Erklärung. Die Bilder bleiben auf dem Gerät und fehlen im Export.
 - **Shop** zeigt die Pakete und Preise, bucht aber nichts ab. Sponsor-Aufgaben sind aus. Die Wahl „selten“ wird nur gemerkt.
 - **Käufe, TestFlight und Store-Builds** sind vorbereitet, aber nicht gestartet. Dafür brauchst du später Konten.
 
