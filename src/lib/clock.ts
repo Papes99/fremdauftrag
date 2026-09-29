@@ -96,7 +96,13 @@ export function shiftMinutes(hhmm: string, delta: number): string {
   return `${String(Math.floor(total / 60)).padStart(2, '0')}:${String(total % 60).padStart(2, '0')}`;
 }
 
-/** Der Tag der Aufgaben beginnt zur persönlichen Morgenzeit. */
+/** Minuten bis zur nächsten persönlichen Morgenzeit, in der Zeitzone der Person. */
+export function minutesUntilMorning(now: Date, morning: string, timeZone: string): number {
+  const p = zonedParts(now, timeZone);
+  const delta = toMinutes(morning) - (p.hour * 60 + p.minute);
+  return delta > 0 ? delta : delta + 24 * 60;
+}
+
 export function personalDay(now: Date, morning: string, timeZone: string): string {
   const p = zonedParts(now, timeZone);
   let date = isoDate(p.year, p.month, p.day);

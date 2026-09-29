@@ -1,5 +1,7 @@
 /** Nächtliches Matching. Niemand bekommt eigene Aufgaben, ein Set nur einmal. */
 
+import { minutesUntilMorning } from './clock.ts';
+
 export type TaskSource = 'user' | 'seed' | 'pack' | 'sponsor';
 
 export type MatchPerson = {
@@ -28,6 +30,20 @@ export type AssignmentPlan = {
   setId: string | null;
   tasks: PlannedTask[];
 };
+
+export const MATCH_LEAD_MIN = 60;
+export const MATCH_LEAD_MAX = 180;
+export const AUTHOR_COOLDOWN_DAYS = 14;
+export const SEED_COOLDOWN_DAYS = 60;
+export const ACTIVE_WINDOW_DAYS = 7;
+
+export type DuePerson = MatchPerson & { morning: string; timeZone: string };
+
+/** Stündlicher Job: Morgenzeit liegt in 1 bis 3 Stunden. */
+export function dueThisHour(now: Date, morning: string, timeZone: string): boolean {
+  const mins = minutesUntilMorning(now, morning, timeZone);
+  return mins >= MATCH_LEAD_MIN && mins <= MATCH_LEAD_MAX;
+}
 
 export function pickIds(all: string[], recent: string[], count: number, rng: () => number): string[] {
   const recentSet = new Set(recent);
@@ -59,8 +75,15 @@ export function matchUsers(input: {
   sponsorIds: string[];
   sponsorsEnabled: boolean;
   rng: () => number;
+  bannedAuthorIds?: string[];
+  blockedTaskIds?: string[];
 }): { plans: AssignmentPlan[]; leftoverSetIds: string[] } {
   const taken = new Set<string>();
+  const bannedAuthors = new Set(input.bannedAuthorIds ?? input.people.filter((person) => person.banned).map((person) => person.id));
+  const blockedTasks = new Set(input.blockedTaskIds ?? []);
+  const usableSets = input.sets.filter(
+    (set) => !bannedAuthors.has(set.authorId) && set.taskIds.every((id) => !blockedTasks.has(id)),
+  );
   const plans: AssignmentPlan[] = [];
   const receivers = shuffle(
     input.people.filter((person) => person.active && !person.banned),
@@ -68,7 +91,7 @@ export function matchUsers(input: {
   );
 
   for (const person of receivers) {
-    const set = input.sets.find(
+    const set = usableSets.find(
       (candidate) =>
         !taken.has(candidate.id) &&
         candidate.authorId !== person.id &&
@@ -118,6 +141,28 @@ export function matchUsers(input: {
 
   return {
     plans,
-    leftoverSetIds: input.sets.filter((set) => !taken.has(set.id)).map((set) => set.id),
+    leftoverSetIds: usableSets.filter((set) => !taken.has(set.id)).map((set) => set.id),
   };
+}
+
+export function planHour(input: {
+  now: Date;
+  people: DuePerson[];
+  sets: MatchSet[];
+  seedIds: string[];
+  sponsorIds: string[];
+  sponsorsEnabled: boolean;
+  rng: () => number;
+  blockedTaskIds?: string[];
+}): { plans: AssignmentPlan[]; leftoverSetIds: string[] } {
+  return matchUsers({
+    people: input.people.filter((person) => dueThisHour(input.now, person.morning, person.timeZone)),
+    sets: input.sets,
+    seedIds: input.seedIds,
+    sponsorIds: input.sponsorIds,
+    sponsorsEnabled: input.sponsorsEnabled,
+    rng: input.rng,
+    bannedAuthorIds: input.people.filter((person) => person.banned).map((person) => person.id),
+    blockedTaskIds: input.blockedTaskIds,
+  });
 }

@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { matchUsers, type MatchPerson, type MatchSet } from './matching.ts';
+import { dueThisHour, matchUsers, planHour, pickIds, type DuePerson, type MatchPerson, type MatchSet } from './matching.ts';
 
 function rng(seed = 1): () => number {
   let a = seed >>> 0;
@@ -115,4 +115,68 @@ test('ohne Set kann ein fälliger Sponsor genau eine Aufgabe sein', () => {
   });
   assert.equal(result.plans[0]!.tasks.filter((task) => task.source === 'sponsor').length, 1);
   assert.equal(result.plans[0]!.tasks.filter((task) => task.source === 'seed').length, 2);
+});
+
+function duePerson(id: string, timeZone: string, extra: Partial<DuePerson> = {}): DuePerson {
+  return { ...person(id, extra), morning: extra.morning ?? '07:00', timeZone };
+}
+
+test('der Job nimmt nur Leute, deren Morgen in 1 bis 3 Stunden liegt', () => {
+  const now = new Date('2026-09-29T04:00:00Z');
+  assert.equal(dueThisHour(now, '07:00', 'Europe/Berlin'), true);
+  assert.equal(dueThisHour(new Date('2026-09-29T01:00:00Z'), '07:00', 'Europe/Berlin'), false);
+  assert.equal(dueThisHour(new Date('2026-09-29T05:00:00Z'), '07:00', 'Europe/Lisbon'), true);
+  assert.equal(dueThisHour(new Date('2026-09-29T09:00:00Z'), '07:00', 'America/New_York'), true);
+  assert.equal(dueThisHour(new Date('2026-09-28T20:00:00Z'), '07:00', 'Asia/Tokyo'), true);
+  assert.equal(dueThisHour(new Date('2026-09-29T10:00:00Z'), '14:00', 'Europe/Berlin'), true);
+
+  const people = [
+    duePerson('berlin', 'Europe/Berlin'),
+    duePerson('tokio', 'Asia/Tokyo'),
+    duePerson('schicht', 'Europe/Berlin', { morning: '14:00' }),
+  ];
+  const result = planHour({
+    now,
+    people,
+    sets: [],
+    seedIds: seeds,
+    sponsorIds: [],
+    sponsorsEnabled: false,
+    rng: rng(8),
+  });
+  assert.deepEqual(result.plans.map((plan) => plan.receiverId), ['berlin']);
+  assert.equal(result.plans[0]!.tasks.every((task) => task.source === 'seed'), true);
+});
+
+test('gesperrte Autoren und gemeldete Aufgaben werden nicht zugeteilt', () => {
+  const people = [person('b'), person('a', { banned: true })];
+  const sets: MatchSet[] = [
+    { id: 'set-a', authorId: 'a', language: 'de', taskIds: ['a-1', 'a-2', 'a-3'] },
+    { id: 'set-c', authorId: 'c', language: 'de', taskIds: ['c-1', 'c-2', 'bad'] },
+  ];
+  const result = matchUsers({
+    people,
+    sets,
+    seedIds: seeds,
+    sponsorIds: [],
+    sponsorsEnabled: false,
+    blockedTaskIds: ['bad'],
+    rng: rng(9),
+  });
+  assert.equal(result.plans[0]!.setId, null);
+  assert.equal(result.leftoverSetIds.length, 0);
+});
+
+test('eine andere Sprache bekommt das deutsche Set nicht', () => {
+  const people = [person('b', { language: 'en' })];
+  const sets: MatchSet[] = [{ id: 'set-a', authorId: 'a', language: 'de', taskIds: ['a-1', 'a-2', 'a-3'] }];
+  const result = matchUsers({ people, sets, seedIds: seeds, sponsorIds: [], sponsorsEnabled: false, rng: rng(10) });
+  assert.equal(result.plans[0]!.setId, null);
+  assert.deepEqual(result.leftoverSetIds, ['set-a']);
+});
+
+test('kürzlich gesehene Startpool-Aufgaben kommen nicht noch einmal', () => {
+  const recent = seeds.slice(0, 60);
+  const picked = pickIds(seeds, recent, 3, rng(11));
+  assert.equal(picked.some((id) => recent.includes(id)), false);
 });
