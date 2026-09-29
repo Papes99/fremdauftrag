@@ -40,9 +40,13 @@ export default function WriteScreen() {
           </AppText>
         </Card>
       ) : null}
-      {view.yesterdayWaiting ? (
+      {view.echo ? (
         <Card>
-          <AppText variant="body">{copy.write.yesterday}</AppText>
+          <AppText variant="body">{fill(copy.write.echoCount, view.echo)}</AppText>
+        </Card>
+      ) : view.yesterdayWaiting ? (
+        <Card>
+          <AppText variant="body">{copy.write.echoNone}</AppText>
         </Card>
       ) : null}
       <AppText variant="muted">{copy.write.hint}</AppText>

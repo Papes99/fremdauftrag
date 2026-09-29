@@ -110,6 +110,7 @@ export type JournalView = {
   assignment: { id: string; day: string; tasks: VisibleTask[] } | null;
   draft: Draft | null;
   yesterdayWaiting: boolean;
+  echo: { done: number; total: 3 } | null;
   streak: number;
   best: number;
   totalDone: number;
@@ -561,6 +562,12 @@ function strikeCount(state: JournalState, now: Date): number {
   return state.strikes.filter((strike) => Date.parse(strike.at) >= cutoff).length;
 }
 
+/** Nur die Zahl. Kein Aufgabentext, kein Foto, kein Name. */
+export function authorEcho(done: number): { done: number; total: 3 } {
+  const safe = Number.isFinite(done) ? Math.max(0, Math.min(3, Math.floor(done))) : 0;
+  return { done: safe, total: 3 };
+}
+
 export function project(state: JournalState, now: Date, timeZone: string): JournalView {
   const morning = morningFor(state.settings, now, timeZone);
   const today = personalDay(now, morning, timeZone);
@@ -599,6 +606,7 @@ export function project(state: JournalState, now: Date, timeZone: string): Journ
       : null,
     draft,
     yesterdayWaiting: Boolean(yesterdayDraft?.lines.some((line) => line.text.trim().length > 0)),
+    echo: null,
     streak: counted.streak,
     best: counted.best,
     totalDone: state.assignments.reduce(

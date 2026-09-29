@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import {
   createJournal,
+  authorEcho,
   exportJournal,
   fileReport,
   project,
@@ -43,6 +44,26 @@ test('am nächsten Morgen verfallen offene Aufgaben', () => {
   const next = tick(state, nextMorning, catalogs, 'Europe/Berlin');
   assert.equal(next.assignments[0]?.tasks.every((task) => task.status === 'expired'), true);
   assert.equal(next.assignments.length, 2);
+});
+
+test('Mitternacht lässt den Tag offen, die Morgenzeit schließt ihn', () => {
+  const state = createJournal(morning, 'sess', 'Europe/Berlin', catalogs);
+  const midnight = tick(state, new Date('2026-09-29T22:00:00Z'), catalogs, 'Europe/Berlin');
+  assert.equal(midnight.assignments.length, 1);
+  assert.equal(midnight.assignments[0]!.tasks.every((task) => task.status === 'open'), true);
+  const justBefore = tick(midnight, new Date('2026-09-30T04:59:00Z'), catalogs, 'Europe/Berlin');
+  assert.equal(justBefore.assignments[0]!.tasks.every((task) => task.status === 'open'), true);
+  const atMorning = tick(justBefore, new Date('2026-09-30T05:00:00Z'), catalogs, 'Europe/Berlin');
+  assert.equal(atMorning.assignments[0]!.tasks.every((task) => task.status === 'expired'), true);
+  assert.equal(atMorning.assignments.length, 2);
+});
+
+test('die Rückmeldung nennt nur eine Zahl', () => {
+  const echo = authorEcho(2);
+  assert.deepEqual(echo, { done: 2, total: 3 });
+  assert.equal('text' in echo, false);
+  const view = project(createJournal(morning, 'sess', 'Europe/Berlin', catalogs), morning, 'Europe/Berlin');
+  assert.equal(view.echo, null);
 });
 
 test('eine erledigte Aufgabe setzt die Streak auf 1', () => {
