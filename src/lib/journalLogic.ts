@@ -397,6 +397,42 @@ export function setTaskPhoto(state: JournalState, taskKey: string, photo: string
   };
 }
 
+const LOCAL_PHOTO = 'local:';
+
+/** Die Bilddaten liegen getrennt. Im Verlauf bleibt nur ein Verweis. */
+export function detachPhotos(state: JournalState): { state: JournalState; photos: Record<string, string> } {
+  const photos: Record<string, string> = {};
+  return {
+    photos,
+    state: {
+      ...state,
+      assignments: state.assignments.map((assignment) => ({
+        ...assignment,
+        tasks: assignment.tasks.map((task) => {
+          if (!task.photo) return task;
+          const id = task.photo.startsWith(LOCAL_PHOTO) ? task.photo.slice(LOCAL_PHOTO.length) : `photo-${task.key}`;
+          if (!task.photo.startsWith(LOCAL_PHOTO)) photos[id] = task.photo;
+          return { ...task, photo: `${LOCAL_PHOTO}${id}` };
+        }),
+      })),
+    },
+  };
+}
+
+export function attachPhotos(state: JournalState, photos: Record<string, string>): JournalState {
+  return {
+    ...state,
+    assignments: state.assignments.map((assignment) => ({
+      ...assignment,
+      tasks: assignment.tasks.map((task) => {
+        if (!task.photo?.startsWith(LOCAL_PHOTO)) return task;
+        const data = photos[task.photo.slice(LOCAL_PHOTO.length)];
+        return { ...task, photo: data ?? null };
+      }),
+    })),
+  };
+}
+
 export function fileReport(
   state: JournalState,
   taskKey: string,

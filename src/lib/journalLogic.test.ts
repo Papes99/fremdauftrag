@@ -2,12 +2,15 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import {
   createJournal,
+  detachPhotos,
+  attachPhotos,
   authorEcho,
   exportJournal,
   fileReport,
   project,
   setDraftLine,
   setPause,
+  setTaskNote,
   setTaskPhoto,
   setTaskStatus,
   submitDraft,
@@ -120,12 +123,19 @@ test('eine Meldung tauscht Startpool nicht, eine Aufgabe von einem Menschen scho
   assert.equal(JSON.stringify(project(reported.state, morning, 'Europe/Berlin')).includes('person-a'), false);
 });
 
-test('Fotos bleiben aus dem Export', () => {
+test('Fotos bleiben aus dem gespeicherten Verlauf und aus dem Export', () => {
   let state = createJournal(morning, 'sess', 'Europe/Berlin', catalogs);
   const key = state.assignments[0]!.tasks[0]!.key;
-  state = setTaskPhoto(state, key, 'data:image/png;secret');
-  const raw = JSON.stringify(exportJournal(state, morning, 'Europe/Berlin'));
-  assert.equal(raw.includes('secret'), false);
+  state = setTaskPhoto(state, key, 'data:image/jpeg;base64,SECRET');
+  state = setTaskNote(state, key, 'nur hier');
+  const split = detachPhotos(state);
+  assert.equal(JSON.stringify(split.state).includes('SECRET'), false);
+  assert.equal(Object.values(split.photos).includes('data:image/jpeg;base64,SECRET'), true);
+  const back = attachPhotos(split.state, split.photos);
+  assert.equal(back.assignments[0]!.tasks[0]!.photo, 'data:image/jpeg;base64,SECRET');
+  const raw = JSON.stringify(exportJournal(back, morning, 'Europe/Berlin'));
+  assert.equal(raw.includes('SECRET'), false);
+  assert.equal(raw.includes('nur hier'), true);
 });
 
 test('Pause beginnt am nächsten Morgen, wenn heute schon Aufgaben da sind', () => {

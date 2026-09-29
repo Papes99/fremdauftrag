@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Pressable, View } from 'react-native';
+import { Image, Pressable, View } from 'react-native';
 import { AppPage } from '@/components/AppPage';
 import { AppText } from '@/components/AppText';
 import { BootMark } from '@/components/BootMark';
@@ -37,6 +37,8 @@ export default function HistoryScreen() {
       </AppText>
       <AppText variant="body">{fill(copy.history.best, { count: view.best })}</AppText>
       <AppText variant="body">{fill(copy.history.total, { count: view.totalDone })}</AppText>
+      <AppText variant="muted">{copy.history.grace}</AppText>
+      <AppText variant="muted">{copy.history.private}</AppText>
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
         <Pressable accessibilityRole="button" accessibilityLabel={copy.history.prev} onPress={() => shift(-1)} style={{ minHeight: 48, justifyContent: 'center' }}>
           <AppText variant="label">{copy.history.prev}</AppText>
@@ -113,6 +115,13 @@ export default function HistoryScreen() {
                         : copy.home.open}
                 </AppText>
                 {task.note ? <AppText variant="muted">{task.note}</AppText> : null}
+                {task.photo ? (
+                  <Image
+                    source={{ uri: task.photo }}
+                    accessibilityLabel={copy.home.photo}
+                    style={{ width: '100%', height: 160, borderRadius: 16 }}
+                  />
+                ) : null}
               </View>
             ))
           ) : (

@@ -6,7 +6,9 @@ import { AI_AVAILABLE, SPONSORS_ENABLED } from '@/lib/flags';
 import {
   adminClose,
   adminRemove,
+  attachPhotos,
   createJournal,
+  detachPhotos,
   exportJournal,
   fileReport,
   marksForMonth,
@@ -31,6 +33,7 @@ import {
 import { useSession } from '@/lib/session';
 
 const STORAGE_KEY = 'fremdauftrag.journal.v1';
+const PHOTO_KEY = 'fremdauftrag.photos.v1';
 
 const catalogs: Catalogs = {
   seeds: SEED_TASKS,
@@ -87,16 +90,17 @@ export function JournalProvider({ children }: { children: ReactNode }) {
       setReady(true);
       return;
     }
-    AsyncStorage.getItem(STORAGE_KEY)
-      .then((raw) => {
+    Promise.all([AsyncStorage.getItem(STORAGE_KEY), AsyncStorage.getItem(PHOTO_KEY)])
+      .then(([raw, photoRaw]) => {
         if (!alive) return;
         const tz = deviceTimeZone();
         const parsed: unknown = raw ? JSON.parse(raw) : null;
-        const base =
+        const photos = photoRaw ? (JSON.parse(photoRaw) as Record<string, string>) : {};
+        const loaded =
           isJournal(parsed) && parsed.sessionCreatedAt === session.createdAt
-            ? parsed
+            ? attachPhotos(parsed, photos && typeof photos === 'object' ? photos : {})
             : createJournal(new Date(), session.createdAt, tz, catalogs);
-        setState(tick(base, new Date(), catalogs, tz));
+        setState(tick(loaded, new Date(), catalogs, tz));
       })
       .catch(() => {
         if (!alive || !session) return;
@@ -113,7 +117,9 @@ export function JournalProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     if (!state) return;
-    AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(state)).catch(() => undefined);
+    const { state: slim, photos } = detachPhotos(state);
+    AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(slim)).catch(() => undefined);
+    AsyncStorage.setItem(PHOTO_KEY, JSON.stringify(photos)).catch(() => undefined);
   }, [state]);
 
   useEffect(() => {
@@ -167,7 +173,7 @@ export function JournalProvider({ children }: { children: ReactNode }) {
       exportJson: () => (state ? JSON.stringify(exportJournal(state, new Date(), tz), null, 2) : '{}'),
       wipe: async () => {
         setState(null);
-        await AsyncStorage.removeItem(STORAGE_KEY);
+        await AsyncStorage.multiRemove([STORAGE_KEY, PHOTO_KEY]);
       },
     };
   }, [change, ready, state, view]);

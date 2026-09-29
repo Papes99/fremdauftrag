@@ -243,6 +243,8 @@
     "title": "Verlauf",
     "best": "Längste Streak: {count}",
     "total": "Erledigte Aufgaben: {count}",
+    "grace": "Ein verpasster Tag pro Woche ist Schonung. Die Streak bleibt. Eine Pause friert sie ein.",
+    "private": "Notizen und Fotos bleiben nur auf diesem Gerät.",
     "prev": "Zurück",
     "next": "Weiter",
     "week": [
