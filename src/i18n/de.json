@@ -1,0 +1,298 @@
+{
+  "appName": "Fremdauftrag",
+  "a11y": {
+    "leaf": "Kleines Blatt, das Zeichen von Fremdauftrag",
+    "back": "Zurück",
+    "settings": "Einstellungen",
+    "step": "Schritt {current} von {total}"
+  },
+  "onboarding": {
+    "next": "Weiter",
+    "back": "Zurück",
+    "pages": [
+      {
+        "title": "Für jemand anderen",
+        "body": "Jeden Abend schreibst du 3 kleine Aufgaben für einen Fremden."
+      },
+      {
+        "title": "Von jemand anderem",
+        "body": "Jeden Morgen bekommst du 3 Aufgaben von einem anderen Fremden."
+      },
+      {
+        "title": "Anonym und freundlich",
+        "body": "Alles bleibt anonym. Die Regeln: freundlich, sicher, machbar."
+      }
+    ],
+    "rulesLink": "Regeln ansehen"
+  },
+  "age": {
+    "title": "Wie alt bist du?",
+    "body": "Fremdauftrag ist für Menschen ab 16. Wir merken uns nur, dass du alt genug bist. Dein Geburtsjahr speichern wir nicht.",
+    "yearLabel": "Geburtsjahr {year}",
+    "continue": "Weiter",
+    "chooseFirst": "Wähl zuerst dein Geburtsjahr."
+  },
+  "refusal": {
+    "title": "Noch ein bisschen warten",
+    "body": "Fremdauftrag ist erst ab 16. Das ist kein Vorwurf. Komm wieder, wenn du so weit bist. Ein Konto gibt es jetzt nicht.",
+    "retry": "Anderes Jahr wählen"
+  },
+  "push": {
+    "title": "Zwei ruhige Nachrichten",
+    "body": "Morgens erinnern wir dich an deine 3 Aufgaben. Abends daran, einem Fremden den Tag zu machen. Höchstens zwei Nachrichten am Tag. In einer Pause bleibt es still.",
+    "allow": "Mitteilungen erlauben",
+    "skip": "Lieber ohne",
+    "unavailable": "Auf diesem Gerät können wir gerade nicht fragen. Die App geht auch ohne Mitteilungen. Auf dem Handy kommt die Frage später noch einmal.",
+    "continue": "Weiter"
+  },
+  "auth": {
+    "title": "Anonym starten",
+    "body": "Kein Name, keine E-Mail, kein Standort. Nur ein Start auf diesem Gerät.",
+    "start": "Auf diesem Gerät starten",
+    "working": "Einen Moment …",
+    "notConnectedTitle": "Noch nicht verbunden",
+    "notConnectedBody": "Der Server ist noch nicht da. Du bekommst trotzdem heute 3 Aufgaben aus dem geprüften Startpool. Was du schreibst, geht noch an niemanden.",
+    "connectedTitle": "Verbunden",
+    "connectedBody": "Dein anonymes Konto ist angelegt. Es hat keinen Namen.",
+    "enter": "In die App"
+  },
+  "home": {
+    "greetingMorning": "Guten Morgen",
+    "greetingDay": "Guten Tag",
+    "greetingEvening": "Guten Abend",
+    "notConnectedTitle": "Noch nicht verbunden",
+    "notConnectedBody": "Der Server ist noch nicht verbunden. Die Aufgaben kommen aus dem geprüften Startpool und bleiben auf diesem Gerät.",
+    "connectedTitle": "Verbunden",
+    "connectedBody": "Dein anonymes Konto ist aktiv.",
+    "rhythmTitle": "So wird der Tag",
+    "morning": "Morgens bekommst du 3 Aufgaben.",
+    "evening": "Abends schreibst du 3 Aufgaben für jemand anderen.",
+    "later": "Die Aufgaben selbst kommen im nächsten Schritt. Jede ist freiwillig.",
+    "voluntary": "Du entscheidest. Jede Aufgabe ist freiwillig.",
+    "rules": "Regeln lesen",
+    "streak": "Streak {count}",
+    "streakZero": "Noch kein Streak. Eine erledigte Aufgabe reicht.",
+    "pauseTitle": "Pause",
+    "pauseBody": "Keine neuen Aufgaben. Dein Streak bleibt stehen.",
+    "cardCta": "Deine Tageskarte ist fertig",
+    "eveningCta": "Schreib jetzt deine 3 Aufgaben",
+    "sponsor": "Gesponsert von {name}",
+    "sources": {
+      "seed": "Aus dem Startpool",
+      "pack": "Aus einem Themenpaket",
+      "user": "Von einem Menschen",
+      "sponsor": "Gesponsert"
+    },
+    "photoBig": "Das Foto ist zu groß für dieses Gerät.",
+    "note": "Notiz, nur auf diesem Gerät",
+    "photo": "Foto auswählen, nur auf diesem Gerät",
+    "photoRemove": "Foto entfernen",
+    "replaced": "Diese Aufgabe wurde ausgetauscht.",
+    "donePraise": "Schön. Irgendwo freut sich gerade jemand.",
+    "skipPraise": "Völlig okay. Morgen gibt es neue.",
+    "expired": "Der Tag ist um. Diese Aufgabe zählt als nicht erledigt.",
+    "open": "Noch offen",
+    "done": "Erledigt",
+    "skip": "Heute nicht",
+    "report": "Melden",
+    "reportTitle": "Was stimmt nicht?",
+    "reportSaved": "Gemeldet. Beim Startpool wird erst nach der zweiten Meldung getauscht.",
+    "reportReplaced": "Die Aufgabe wurde ausgetauscht.",
+    "reportDuplicate": "Die hast du schon gemeldet.",
+    "pushOff": "Mitteilungen sind aus. Die App geht trotzdem."
+  },
+  "settings": {
+    "title": "Einstellungen",
+    "accountTitle": "Konto",
+    "notConnected": "Noch nicht verbunden",
+    "connected": "Verbunden",
+    "accountBody": "Es gibt noch keinen Server. Aufgaben, Notizen und Fotos bleiben auf diesem Gerät. Kein Name, kein Geburtsjahr.",
+    "timesTitle": "Zeiten",
+    "timesBody": "Morgen um 07:00, Schreiben von 18:00 bis 23:59. Das sind die Voreinstellungen. Ändern kannst du sie später, auch für Schichtarbeit.",
+    "secureTitle": "Konto sichern",
+    "secureBody": "Apple oder Google kommt erst, wenn der Server verbunden ist.",
+    "rules": "Regeln",
+    "privacy": "Datenschutz",
+    "imprint": "Impressum",
+    "terms": "Nutzungsbedingungen",
+    "contact": "Kontakt",
+    "shop": "Themenpakete",
+    "moderation": "Meldungen auf diesem Gerät",
+    "strikes": "Schwere Hinweise in 30 Tagen: {count}",
+    "morning": "Morgen",
+    "eveningStart": "Schreiben ab",
+    "eveningEnd": "Schreiben bis",
+    "shiftShow": "Schichtmodus",
+    "shiftHide": "Schichtmodus zuklappen",
+    "likeNormal": "Wie an den anderen Tagen",
+    "resetDay": "Normal",
+    "pauseTitle": "Pause",
+    "pauseBody": "1 bis 14 Tage keine neuen Aufgaben. Die Streak friert ein.",
+    "pauseActive": "Pause bis {date}.",
+    "pauseDays": "{count} Tage",
+    "pauseEnd": "Pause beenden",
+    "notifyTitle": "Mitteilungen",
+    "notifyMorning": "Morgens",
+    "notifyEvening": "Abends",
+    "notifyBody": "Höchstens zwei am Tag. In der Pause bleibt es still. Auf dem Handy kommen sie, sobald du sie erlaubst.",
+    "sponsorTitle": "Sponsor-Aufgaben",
+    "sponsorBody": "Sie sind aus. Später höchstens eine pro Woche, klar gekennzeichnet, ohne Kaufzwang. Deine Wahl wird gemerkt.",
+    "sponsorModes": {
+      "off": "Aus",
+      "weekly": "Höchstens wöchentlich",
+      "rare": "Nur selten"
+    },
+    "export": "Daten exportieren",
+    "delete": "Konto auf diesem Gerät löschen",
+    "deleteConfirm": "Wirklich alles löschen?",
+    "minus": "30 Minuten früher",
+    "plus": "30 Minuten später",
+    "on": "an",
+    "off": "aus"
+  },
+  "rules": {
+    "title": "Die Regeln",
+    "intro": "Kurz, freundlich, ohne Druck. Du kannst jede Aufgabe lassen.",
+    "allowedTitle": "So darf eine Aufgabe sein",
+    "allowedBody": "Sicher, legal, freundlich und freiwillig. In unter 30 Minuten machbar. Kostenlos oder höchstens ungefähr 3 Euro. Ohne andere Menschen zu bedrängen.",
+    "forbiddenTitle": "Das geht nicht",
+    "forbidden": [
+      "Gefahr, Mutproben, Selbstverletzung",
+      "Illegales, Drogen, Alkohol, Rauchen, Glücksspiel",
+      "Sexuelles, Anzügliches, Körperbewertung",
+      "Beleidigung, Hass, Diskriminierung, politische Agitation",
+      "Fremde anfassen, verfolgen, heimlich filmen oder bloßstellen",
+      "Hungern, Fasten, Diät, Kalorienzwang, extremes Training",
+      "Persönliche Daten, Links, Telefonnummern, Adressen",
+      "Kontakt zum Autor, Werbung",
+      "Aufgaben, die ein Auto, viel Geld oder besondere Fähigkeiten brauchen"
+    ],
+    "foodNote": "Normales Essen und Trinken ist in Ordnung. Zum Beispiel bewusst einen Tee trinken oder ein Obst probieren.",
+    "voluntary": "Du entscheidest. Jede Aufgabe ist freiwillig."
+  },
+  "legal": {
+    "note": "Platzhalter. Dieser Text wird juristisch geprüft und danach ersetzt. Er ist noch nicht die endgültige Fassung.",
+    "privacy": {
+      "title": "Datenschutz",
+      "body": "Platzhalter. Es gibt noch keinen Server. Auf diesem Gerät liegen das Onboarding, die Aufgaben aus dem Startpool, deine Notizen und optional Fotos. Nichts davon wird hochgeladen. Kein Name, keine E-Mail, kein Geburtsjahr, kein Standort."
+    },
+    "imprint": {
+      "title": "Impressum",
+      "body": "Name, Anschrift und Kontaktadresse werden vor der Veröffentlichung ergänzt."
+    },
+    "terms": {
+      "title": "Nutzungsbedingungen",
+      "body": "Bleib freundlich. Keine Aufgaben, die jemanden gefährden, bedrängen oder zu Werbung machen. Kein Kontakt zum Menschen, der die Aufgabe geschrieben hat. Missbrauch ist nicht erlaubt. Der vollständige Text folgt vor dem Store."
+    }
+  },
+  "contact": {
+    "title": "Kontakt",
+    "body": "Eine erreichbare Adresse kommt vor der Veröffentlichung in den Store. Bis dahin ist hier noch kein Postfach hinterlegt."
+  },
+  "moderation": {
+    "reasons": {
+      "short": "Schreib mindestens 10 Zeichen.",
+      "long": "Kürzer, bitte. Höchstens 140 Zeichen.",
+      "danger": "Das wäre gefährlich. So etwas kommt nicht in die App.",
+      "illegal": "Illegales passt hier nicht rein.",
+      "drugs": "Drogen passen hier nicht rein.",
+      "alcohol": "Alkohol passt hier nicht rein.",
+      "smoke": "Rauchen passt hier nicht rein.",
+      "gambling": "Glücksspiel passt hier nicht rein.",
+      "sexual": "Sexuelles oder Anzügliches passt hier nicht rein.",
+      "hate": "Beleidigung oder Hass passt hier nicht rein.",
+      "stalk": "Heimlich filmen oder verfolgen geht nicht.",
+      "touch": "Fremde anfassen geht nicht.",
+      "diet": "Hungern, Fasten oder Diät passt hier nicht rein.",
+      "exercise": "Extremes Training passt hier nicht rein.",
+      "pii": "Keine Nummern, Links oder privaten Daten.",
+      "contact": "Kein Kontakt zum Autor und keine Treffen.",
+      "ads": "Werbung passt hier nicht rein.",
+      "car": "Die Aufgabe darf kein Auto brauchen.",
+      "money": "Das wäre zu teuer. Höchstens ungefähr 3 Euro.",
+      "politics": "Politische Agitation passt hier nicht rein."
+    }
+  },
+  "nav": {
+    "today": "Heute",
+    "write": "Schreiben",
+    "history": "Verlauf"
+  },
+  "write": {
+    "title": "Für einen Fremden",
+    "rule": "Sicher, freundlich, kostenlos machbar.",
+    "lockBan": "Schreiben ist geschlossen. Die heutigen Aufgaben kannst du trotzdem lesen.",
+    "lockWeek": "Schreiben pausiert bis {date}.",
+    "yesterday": "Deine Aufgaben von gestern warten noch hier. Ein Fremder hat sie nicht bekommen, weil der Server fehlt.",
+    "hint": "Ohne die KI geben wir nichts frei. Der Wortfilter prüft sofort und lässt Gefährliches nicht durch.",
+    "field": "Aufgabe {index}",
+    "placeholder": "Eine kleine, freundliche Aufgabe",
+    "counter": "{count}/140",
+    "rejected": "Die passt leider nicht rein: {reason}",
+    "pending": "Die KI-Prüfung fehlt noch. Die Aufgabe geht an niemanden.",
+    "idea": "Gib mir eine Idee",
+    "submit": "Prüfen"
+  },
+  "history": {
+    "title": "Verlauf",
+    "best": "Längste Streak: {count}",
+    "total": "Erledigte Aufgaben: {count}",
+    "prev": "Zurück",
+    "next": "Weiter",
+    "week": [
+      "Mo",
+      "Di",
+      "Mi",
+      "Do",
+      "Fr",
+      "Sa",
+      "So"
+    ],
+    "empty": "An dem Tag gab es keine Aufgaben."
+  },
+  "card": {
+    "title": "Tageskarte",
+    "count": "{done}/3 erledigt",
+    "streak": "{count} Tage",
+    "footer": "Fremdauftrag – Aufgaben von Fremden",
+    "share": "Teilen",
+    "save": "Speichern",
+    "saved": "Die Karte ist gespeichert.",
+    "noTasks": "Auf der Karte stehen keine Aufgabentexte.",
+    "quotes": [
+      "Klein ist genug.",
+      "Irgendwo freut sich jemand.",
+      "Du hast heute mitgemacht.",
+      "Freundlich reicht.",
+      "Ein bisschen anders als gestern.",
+      "Das war freiwillig. Schön.",
+      "Drei kleine Dinge, ein Tag.",
+      "Kein Publikum nötig.",
+      "Morgen gibt es neue.",
+      "Du entscheidest.",
+      "Still und freundlich.",
+      "Der Tag war deiner."
+    ]
+  },
+  "shop": {
+    "title": "Themenpakete",
+    "body": "Einmal kaufen, dann mischt sich eine Aufgabe daraus in den Morgen. Kaufen geht erst, wenn der Shop verbunden ist. Es wird jetzt nichts abgebucht.",
+    "examples": "Zwei Beispiele",
+    "buy": "Kauf noch nicht möglich"
+  },
+  "modScreen": {
+    "title": "Meldungen",
+    "note": "Nur auf diesem Gerät. Eine Admin-Rolle auf dem Server gibt es noch nicht.",
+    "empty": "Noch keine Meldungen.",
+    "handled": "Erledigt",
+    "open": "Offen",
+    "remove": "Aufgabe austauschen",
+    "close": "Meldung schließen"
+  },
+  "report": {
+    "unangemessen": "Unangemessen",
+    "gefaehrlich": "Gefährlich",
+    "spam": "Spam",
+    "anderes": "Etwas anderes"
+  }
+}

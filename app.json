@@ -1,0 +1,51 @@
+{
+  "expo": {
+    "name": "Fremdauftrag",
+    "slug": "fremdauftrag",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "scheme": "fremdauftrag",
+    "userInterfaceStyle": "automatic",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "de.fremdauftrag.app"
+    },
+    "android": {
+      "package": "de.fremdauftrag.app",
+      "adaptiveIcon": {
+        "backgroundColor": "#F3EDE2",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "predictiveBackGestureEnabled": false
+    },
+    "web": {
+      "bundler": "metro",
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-status-bar",
+      "expo-font",
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#F3EDE2",
+          "image": "./assets/splash-icon.png",
+          "imageWidth": 160,
+          "dark": {
+            "backgroundColor": "#1A211C"
+          }
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Fremdauftrag legt Fotos nur auf diesem Gerät zu deinen Aufgaben. Sie werden nicht hochgeladen."
+        }
+      ]
+    ]
+  }
+}

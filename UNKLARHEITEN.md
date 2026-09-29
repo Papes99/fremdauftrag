@@ -3,7 +3,7 @@
 Stand: 29. September 2026
 
 Die sechs offenen Punkte sind entschieden. Es gilt jeweils die Empfehlung.
-Kleinere Folgefragen werden unten unter „Selbst entschieden“ festgehalten.
+Kleinere Folgefragen stehen unter „Selbst entschieden“.
 Nachfragen nur noch bei Geld, neuen Konten, Schlüsseln, rechtlichen Texten oder einer Änderung am Grundkonzept.
 
 ---
@@ -23,8 +23,6 @@ Nachfragen nur noch bei Geld, neuen Konten, Schlüsseln, rechtlichen Texten oder
 
 ## Bestätigte Festlegungen
 
-Diese Punkte waren vorgeschlagen und sind bestätigt.
-
 - Die App ist für iPhone und Android. Es gibt keine öffentliche Website. Die Vorschau im Chat ist dieselbe App, nur zum Anschauen.
 - Die Kontotabelle heißt `profiles`, nicht `users`, damit sie sich nicht mit der Login-Tabelle von Supabase vermischt.
 - Fremde Aufgaben kommen später nur über eine Sicht ohne `author_id`.
@@ -39,25 +37,38 @@ Diese Punkte waren vorgeschlagen und sind bestätigt.
 
 ## Selbst entschieden
 
-- **Altersprüfung ohne Monat.** Die Person wählt ein Geburtsjahr. Alt genug ist, wer im aktuellen Jahr mindestens 16 wird (`Jahr <= aktuelles Jahr minus 16`). Den Monat fragen wir nicht, weil wir das Datum nicht speichern. Wer unter 16 ist, sieht eine Absage und bekommt kein Konto.
-- **Noch keine Aufgabenkarten in Meilenstein 1.** Leere Karten würden so tun, als gäbe es schon Aufgaben. Der Heute-Screen sagt klar, dass Aufgaben erst kommen, wenn der Server verbunden ist.
-- **Speicher auf dem Gerät.** Fürs Onboarding reicht ein kleiner lokaler Speicher (AsyncStorage). Fotos und Notizen kommen in Meilenstein 5, dann mit SQLite, und bleiben auf dem Gerät.
-- **Bundle-Kennung zum Vormerken:** `de.fremdauftrag.app` (iOS und Android). Lässt sich vor dem Store noch ändern.
-- **Altersprüfung liegt in Meilenstein 1 auf dem Gerät.** Einen Server, der das prüfen könnte, gibt es noch nicht. Wer das Geburtsjahr falsch angibt, können wir in diesem Schritt nicht erkennen.
+- **Altersprüfung ohne Monat.** Die Person wählt ein Geburtsjahr. Alt genug ist, wer im aktuellen Jahr mindestens 16 wird (`Jahr <= aktuelles Jahr minus 16`). Den Monat fragen wir nicht. Jahre unter 16 stehen in der Liste und führen zur Absage. Das Jahr wird dabei nicht gespeichert.
+- **Altersprüfung liegt in Meilenstein 1 auf dem Gerät.** Einen Server, der das prüfen könnte, gibt es noch nicht.
+- **Speicher auf dem Gerät.** Fürs Onboarding reicht AsyncStorage. Fotos und Notizen bleiben auf dem Gerät.
+- **Bundle-Kennung:** `de.fremdauftrag.app`. Lässt sich vor dem Store noch ändern.
+- **Kontrast.** Auf dem orangen Knopf steht dunkle Schrift. Weiße Schrift auf diesem Orange wäre zu hell und schwer lesbar.
+- **Datenbankdateien liegen bereit, sind aber nicht ausgeführt.** `supabase/migrations/0001_profiles.sql` und `0002_tasks.sql`. Strikes, Sperre und Push-Token kann die App selbst nicht ändern. In der Empfänger-Sicht gibt es kein `author_id`.
+
+### Nach dem Bau, 29.09.2026
+
+- **Die App läuft vollständig auf dem Gerät**, solange es keinen Server gibt. Morgens kommen 3 Aufgaben aus dem geprüften Startpool. Es wird kein fremder Mensch erfunden.
+- **Schreiben:** Der Wortfilter lehnt sofort ab. Was unauffällig ist, bleibt „nicht freigegeben“, weil die KI (Mistral) fehlt. Nichts geht an eine andere Person.
+- **Dieselbe schwere Aufgabe am selben Tag** zählt nur einen Hinweis, auch wenn du zweimal auf Prüfen tippst. Drei verschiedene schwere Aufgaben zählen drei.
+- **Erledigt und Heute nicht** lassen sich bis zum Tagesende noch umschalten, falls der falsche Knopf getroffen wurde.
+- **Pause** beginnt am nächsten Morgen, wenn heute schon Aufgaben da sind. Sonst sofort.
+- **Zeitzone** kommt vom Gerät. Wechselt sie mitten am Tag, gibt es kein zweites Aufgabenset an demselben Kalendertag.
+- **Fotos** nur aus der Galerie, nicht mit der Kamera. Sie bleiben auf dem Gerät und fehlen im Export.
+- **Shop** zeigt die Pakete und Preise, bucht aber nichts ab. Sponsor-Aufgaben sind aus. Die Wahl „selten“ wird nur gemerkt.
+- **Käufe, TestFlight und Store-Builds** sind vorbereitet, aber nicht gestartet. Dafür brauchst du später Konten.
 
 ---
 
 ## Was du selbst tun musst
 
-Für Meilenstein 1: **nichts.** Kein Konto, kein Schlüssel.
+Für den jetzigen Stand: **nichts.** Kein Konto, kein Schlüssel.
 
 | Wann | Was | Geld, ungefähr |
 |---|---|---|
-| Vor der echten Anmeldung | Konto bei Supabase, Projekt in Frankfurt, anonyme Anmeldung einschalten | 0 € zum Start. Der nächtliche Job (Meilenstein 3) braucht sehr wahrscheinlich den bezahlten Plan, etwa 25 € im Monat |
-| Meilenstein 2 | Konto bei Mistral, Schlüssel nur auf dem Server | kleiner Betrag nach Verbrauch |
+| Vor der echten Anmeldung | Konto bei Supabase, Projekt in Frankfurt, anonyme Anmeldung einschalten | 0 € zum Start. Der nächtliche Job braucht sehr wahrscheinlich den bezahlten Plan, etwa 25 € im Monat |
+| Vor der echten KI-Prüfung | Konto bei Mistral, Schlüssel nur auf dem Server | kleiner Betrag nach Verbrauch |
 | Zum Testen auf dem Handy | Kostenloses Expo-Konto und die App Expo Go | 0 € |
-| Meilenstein 8 | RevenueCat plus Apple und Google für Käufe | erst mit den Themenpaketen |
-| Meilenstein 10, Store | Apple Developer und Google Play Console | Apple etwa 99 € pro Jahr, Google einmalig etwa 25 € |
+| Wenn der Shop verkaufen soll | RevenueCat plus Apple und Google für Käufe | erst mit den Themenpaketen |
+| Store | Apple Developer und Google Play Console | Apple etwa 99 € pro Jahr, Google einmalig etwa 25 € |
 
 Nicht in den Chat schicken: geheime Schlüssel, Passwörter, `service_role`.
 

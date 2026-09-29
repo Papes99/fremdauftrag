@@ -1,8 +1,11 @@
 # Fremdauftrag
 
-App für iPhone und Android: kleine anonyme Aufgaben von Fremden.
+Kleine anonyme Aufgaben von Fremden. Die App ist für iPhone und Android. Es gibt keine Website.
 
-Offene Punkte sind entschieden. Als Nächstes kommt Meilenstein 1
-(Projekt, Navigation, Design, Übersetzung, Supabase vorbereitet aber noch nicht verbunden, Altersabfrage, Onboarding).
+## Stand
 
-Alle Entscheidungen stehen in [UNKLARHEITEN.md](./UNKLARHEITEN.md).
+Die App ist auf dem Gerät spielbar: Onboarding, Startpool, Erledigen, Melden, Schreiben mit Wortfilter, Streak, Verlauf, Tageskarte, Einstellungen, Shop ohne Kauf, Meldungen.
+
+Der Server ist bewusst noch nicht verbunden. Geschriebene Aufgaben gehen an niemanden. Entscheidungen: [UNKLARHEITEN.md](./UNKLARHEITEN.md)
+
+Die Datenbank-Dateien unter `supabase/migrations/` liegen bereit und sind noch nicht ausgeführt.
