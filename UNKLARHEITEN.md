@@ -76,5 +76,25 @@ Nicht in den Chat schicken: geheime Schlüssel, Passwörter, `service_role`.
 
 ## Später, bewusst noch offen
 
-- Ob Apple die App wegen Aufgaben von Fremden auf 17+ statt 16+ setzt. Unter 16 bleibt die App trotzdem zu.
 - Texte für Datenschutz, Impressum und Nutzungsbedingungen. In der App stehen bis dahin gekennzeichnete Platzhalter.
+
+---
+
+## Für Meilenstein 10, festgehalten am 29.09.2026
+
+Nicht jetzt bauen. Die App selbst bleibt unter 16 zu, egal was die Stores später anzeigen.
+
+### 1. Kamera bei privaten Fotos
+
+Zusätzlich zur Galerie gibt es „Foto aufnehmen“ und „Aus Galerie wählen“. Das Foto bleibt nur auf dem Gerät und wird nie hochgeladen. Die Kamera-Erlaubnis wird erst beim ersten Tippen auf „Foto aufnehmen“ abgefragt, davor steht eine kurze Erklärung.
+
+### 2. Altersfreigabe in den Stores
+
+Geprüft am 29.09.2026. Die genaue Zahl vergibt nicht die App, sondern ein Fragebogen im Entwicklerkonto. Den füllen wir erst aus, wenn die Store-Konten da sind. Eine Behörde kann die Zahl danach noch ändern.
+
+**Apple.** Seit dem 24.07.2025 gibt es die Stufen 4+, 9+, 13+, 16+ und 18+. Die alten Stufen 12+ und 17+ gibt es so nicht mehr. Apple rechnet die Stufe aus den Antworten. Liegt unsere eigene Grenze höher, dürfen wir die Store-Stufe anheben. Nutzeraufgaben allein zwingen nicht automatisch auf 18+; sie stehen bei Apple sogar bei den Möglichkeiten von 4+. Eine Social-Media-Funktion (ein Feed, in dem Aufgaben vieler Leute auftauchen, mit Liken oder Weiterverbreiten) wäre mindestens 13+ und bekäme den Hinweis „Social Media“. Fremdauftrag hat keinen solchen Feed. Für die Einreichung antworten wir ehrlich. Danach setzen wir die Store-Stufe mindestens auf 16+, passend zur Sperre in der App. 18+ wäre nur dran, wenn sexuelle Inhalte, reale Gewalt oder Ähnliches zum normalen Erlebnis gehörten. Das soll die Moderation verhindern. Ob Apple das genauso sieht, wissen wir erst bei der Prüfung.
+
+**Google.** Auch hier kommt die Stufe aus einem Fragebogen (IARC), nicht aus einer freien Wahl. In Deutschland ist 16+ der naheliegende Kandidat, in den USA kann dieselbe App als „Teen“ oder „Mature 17+“ stehen. Seit dem 26.08.2026 müssen Apps, deren Kern anonyme oder zufällige Chats sind, Minderjährige ganz aussperren, also unter 18. Fremdauftrag ist kein Chat: kein Schreiben hin und her, kein Kontakt zur anderen Person. Die strenge Chat-Regel greift deshalb nach dem Wortlaut nicht automatisch. Ein Prüfer kann die App trotzdem danebenlegen. Wenn das passiert, entscheiden wir dann, nicht jetzt.
+
+Quellen: [Apple, 24.07.2025](https://developer.apple.com/news/?id=ks775ehf), [Apple, 09.07.2026](https://developer.apple.com/news/?id=tlur8uvi), [Google Play zu Altersfreigaben](https://support.google.com/googleplay/android-developer/answer/9859655).
+
